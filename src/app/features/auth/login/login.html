@@ -1,0 +1,107 @@
+<section class="flex min-h-dvh w-full items-center justify-center bg-slate-200 px-4 py-8">
+  <main
+    class="w-full max-w-md rounded-3xl border border-slate-200 bg-white p-8 shadow-xl shadow-slate-300/40 sm:p-10"
+  >
+    <div class="mb-6 text-center">
+      <div
+        class="mx-auto mb-5 flex size-12 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-600/20"
+      >
+        <i class="pi pi-lock text-xl"></i>
+      </div>
+
+      <h1 class="text-3xl font-bold tracking-tight text-slate-900">Bem-vindo(a)!</h1>
+
+      <p class="mt-2 text-sm text-slate-500">Entre na sua conta para continuar.</p>
+    </div>
+
+    <p-toast />
+
+    <form [formGroup]="LoginForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-5">
+      <div class="flex flex-col gap-2">
+        <label
+          for="email"
+          [class.text-red-700]="isInvalid('email')"
+          class="text-sm font-medium text-slate-700"
+        >
+          Email
+        </label>
+
+        <input
+          pInputText
+          type="email"
+          id="email"
+          placeholder="usuario@email.com"
+          formControlName="email"
+          [invalid]="isInvalid('email')"
+          class="w-full"
+        />
+
+        @if (isInvalid('email')) {
+          @if (LoginForm.get('email')?.errors?.['required']) {
+            <p-message severity="error" size="small" variant="simple">
+              Email é obrigatório.
+            </p-message>
+          }
+
+          @if (LoginForm.get('email')?.errors?.['email']) {
+            <p-message severity="error" size="small" variant="simple">
+              Escolha um email válido.
+            </p-message>
+          }
+        }
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label
+          for="senha"
+          [class.text-red-700]="isInvalid('senha')"
+          class="text-sm font-medium text-slate-700"
+        >
+          Senha
+        </label>
+
+        <p-password
+          id="senha"
+          formControlName="senha"
+          placeholder="Digite sua senha"
+          [toggleMask]="true"
+          [feedback]="false"
+          [invalid]="isInvalid('senha')"
+          inputStyleClass="w-full"
+        />
+
+        @if (isInvalid('senha')) {
+          @if (LoginForm.get('senha')?.errors?.['required']) {
+            <p-message severity="error" size="small" variant="simple">
+              Senha é obrigatória.
+            </p-message>
+          }
+
+          @if (LoginForm.get('senha')?.errors?.['pattern']) {
+            <p-message severity="error" size="small" variant="simple">
+              A senha deve ter no mínimo 6 caracteres, contendo letras e números.
+            </p-message>
+          }
+        }
+      </div>
+
+      <button
+        class="mt-2 flex w-full cursor-pointer items-center justify-center rounded-xl bg-blue-600 px-6 py-3.5 text-sm font-semibold tracking-wide text-white shadow-lg shadow-blue-600/20 transition-all duration-200 hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-xl hover:shadow-blue-600/25 active:translate-y-0 disabled:cursor-not-allowed disabled:bg-blue-400"
+        type="submit"
+      >
+        Entrar
+      </button>
+    </form>
+
+    <div class="mt-8 border-t border-slate-100 pt-6 text-center">
+      <span class="text-sm text-slate-500"> Não tem uma conta? </span>
+
+      <a
+        href="#"
+        class="ml-1 text-sm font-semibold text-blue-600 transition-colors hover:text-blue-700"
+      >
+        Criar conta
+      </a>
+    </div>
+  </main>
+</section>
