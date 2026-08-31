@@ -1,6 +1,6 @@
 <section class="flex min-h-dvh w-full items-center justify-center bg-slate-200 px-4 py-8">
   <main
-    class="w-full max-w-md rounded-3xl border border-slate-200 bg-white p-8 shadow-xl shadow-slate-300/40 sm:p-10"
+    class="w-full max-w-sm rounded-3xl border border-slate-200 bg-white p-4 shadow-xl shadow-slate-300/40 sm:p-6"
   >
     <div class="mb-6 text-center">
       <div
@@ -11,13 +11,13 @@
 
       <h1 class="text-3xl font-bold tracking-tight text-slate-900">Bem-vindo(a)!</h1>
 
-      <p class="mt-2 text-sm text-slate-500">Entre na sua conta para continuar.</p>
+      <p class="mt-1 text-sm text-slate-500 italic">Entre na sua conta para continuar.</p>
     </div>
 
     <p-toast />
 
     <form [formGroup]="LoginForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-5">
-      <div class="flex flex-col gap-2">
+      <div class="flex flex-col gap-1">
         <label
           for="email"
           [class.text-red-700]="isInvalid('email')"
@@ -34,6 +34,7 @@
           formControlName="email"
           [invalid]="isInvalid('email')"
           class="w-full"
+          pSize="small"
         />
 
         @if (isInvalid('email')) {
@@ -51,7 +52,7 @@
         }
       </div>
 
-      <div class="flex flex-col gap-2">
+      <div class="flex flex-col gap-1">
         <label
           for="senha"
           [class.text-red-700]="isInvalid('senha')"
@@ -68,6 +69,7 @@
           [feedback]="false"
           [invalid]="isInvalid('senha')"
           inputStyleClass="w-full"
+          size="small"
         />
 
         @if (isInvalid('senha')) {
@@ -86,7 +88,7 @@
       </div>
 
       <button
-        class="mt-2 flex w-full cursor-pointer items-center justify-center rounded-xl bg-blue-600 px-6 py-3.5 text-sm font-semibold tracking-wide text-white shadow-lg shadow-blue-600/20 transition-all duration-200 hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-xl hover:shadow-blue-600/25 active:translate-y-0 disabled:cursor-not-allowed disabled:bg-blue-400"
+        class="mt-2 flex w-full cursor-pointer items-center justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-xs font-semibold tracking-wide text-white shadow-lg shadow-blue-600/20 transition-all duration-200 hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-xl hover:shadow-blue-600/25 active:translate-y-0 disabled:cursor-not-allowed disabled:bg-blue-400"
         type="submit"
       >
         Entrar
@@ -97,7 +99,7 @@
       <span class="text-sm text-slate-500"> Não tem uma conta? </span>
 
       <a
-        href="#"
+        routerLink="/cadastro"
         class="ml-1 text-sm font-semibold text-blue-600 transition-colors hover:text-blue-700"
       >
         Criar conta

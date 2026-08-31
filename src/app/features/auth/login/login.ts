@@ -5,6 +5,7 @@ import { ToastModule } from 'primeng/toast';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +16,7 @@ import { PasswordModule } from 'primeng/password';
     ButtonModule,
     InputTextModule,
     PasswordModule,
+    RouterLink,
   ],
   templateUrl: './login.html',
 })

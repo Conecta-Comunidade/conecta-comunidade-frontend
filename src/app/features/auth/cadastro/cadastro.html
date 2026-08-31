@@ -1,0 +1,34 @@
+<section class="flex min-h-dvh w-full items-center justify-center bg-slate-200 px-4 py-8">
+  <main
+    class="w-full max-w-sm rounded-3xl border border-slate-200 bg-white p-2 shadow-xl shadow-slate-300/40"
+  >
+    <div class="flex w-full">
+      <p-tabs [(value)]="tabs" class="w-full">
+        <p-tablist>
+          <p-tab
+            class="w-1/2 rounded-t-2xl text-center text-sm transition-all data-[p-active=true]:bg-blue-500! data-[p-active=true]:text-white!"
+            value="SOLICITANTE"
+          >
+            Busco Serviço
+          </p-tab>
+
+          <p-tab
+            class="w-1/2 rounded-t-2xl text-center text-sm transition-all data-[p-active=true]:bg-blue-500! data-[p-active=true]:text-white!"
+            value="PRESTADOR"
+          >
+            Ofereço Serviço
+          </p-tab>
+        </p-tablist>
+
+        <p-tabpanels>
+          <p-tabpanel value="SOLICITANTE">
+            <app-solicitante />
+          </p-tabpanel>
+          <p-tabpanel value="PRESTADOR">
+            <app-prestador></app-prestador>
+          </p-tabpanel>
+        </p-tabpanels>
+      </p-tabs>
+    </div>
+  </main>
+</section>
