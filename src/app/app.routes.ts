@@ -9,4 +9,8 @@ export const routes: Routes = [
     path: 'cadastro',
     loadComponent: () => import('./features/auth/cadastro/cadastro').then((m) => m.Cadastro),
   },
+  {
+    path: 'home',
+    loadComponent: () => import('./features/home/home').then((m) => m.Home),
+  },
 ];

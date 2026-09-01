@@ -1,0 +1,33 @@
+<header class="border-b border-slate-200 bg-white">
+  <div class="mx-auto flex h-24 w-full max-w-7xl items-center justify-between px-6">
+    <a routerLink="/home" class="flex items-center" aria-label="Ir para a página inicial">
+      <img src="logo.png" alt="Logo" class="h-20 w-auto object-contain" />
+    </a>
+    <nav class="flex items-center gap-2">
+      <a
+        routerLink="/agendamentos"
+        routerLinkActive="bg-blue-50 text-blue-700"
+        class="rounded-lg px-4 py-2 font-medium text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900"
+      >
+        Agendamentos
+      </a>
+
+      <a
+        routerLink="/perfil"
+        routerLinkActive="bg-blue-50 text-blue-700"
+        class="rounded-lg px-4 py-2 font-medium text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900"
+      >
+        Meu Perfil
+      </a>
+
+      <div class="mx-2 h-6 w-px bg-slate-200"></div>
+      <button
+        type="button"
+        class="cursor-pointer rounded-lg bg-blue-400 px-4 py-2 font-semibold text-white transition-colors hover:bg-blue-400/90"
+      >
+        <span class="pi pi-sign-out"></span>
+        Sair
+      </button>
+    </nav>
+  </div>
+</header>
