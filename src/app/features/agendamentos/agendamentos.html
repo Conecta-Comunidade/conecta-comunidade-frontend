@@ -1,0 +1,64 @@
+<section class="flex min-h-full flex-col gap-8 rounded-2xl bg-slate-50 px-6 py-10">
+  <header class="flex w-full items-center gap-4">
+    <a
+      routerLink="/home"
+      class="text-sm font-medium text-slate-600 transition-colors hover:text-blue-700"
+    >
+      Voltar
+    </a>
+
+    <h1 class="flex-1 text-center text-2xl font-bold tracking-tight text-slate-900 italic">
+      Meus Agendamentos
+    </h1>
+
+    <div class="w-12"></div>
+  </header>
+  <section class="flex w-full justify-center">
+    <app-button class="w-full max-w-sm">
+      <i class="pi pi-plus mr-2"></i>
+      Novo Agendamento
+    </app-button>
+  </section>
+  <section class="grid w-full grid-cols-1 gap-6 md:grid-cols-2">
+    @for (agendamento of agendamentos; track agendamento.id) {
+      <article
+        class="group flex min-h-28 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+        [class.border-l-8]="true"
+        [style.border-left-color]="agendamento.cor"
+      >
+        <div class="flex items-center justify-center px-4">
+          <div
+            class="flex size-14 shrink-0 items-center justify-center rounded-full"
+            [style.background-color]="agendamento.cor"
+          >
+            <i [class]="agendamento.icone" style="font-size: 1.3rem"></i>
+          </div>
+        </div>
+        <div class="flex flex-1 flex-col justify-center py-3 pr-4">
+          <h2 class="text-sm font-medium text-slate-950">
+            {{ agendamento.servico }}
+          </h2>
+          <p class="text-sm font-medium text-slate-900">
+            {{ agendamento.data }} às {{ agendamento.hora }}
+          </p>
+          <p class="text-sm text-slate-900">
+            {{ agendamento.prestador }}
+          </p>
+          <p class="mt-1 text-xs text-slate-600">
+            {{ agendamento.local }}
+          </p>
+        </div>
+      </article>
+    } @empty {
+      <div
+        class="col-span-full flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-300 bg-white px-6 py-12 text-center"
+      >
+        <i class="pi pi-calendar text-3xl text-slate-400"></i>
+
+        <h2 class="mt-4 text-lg font-semibold text-slate-800">Nenhum agendamento</h2>
+
+        <p class="mt-1 text-sm text-slate-500">Você ainda não possui nenhum serviço agendado.</p>
+      </div>
+    }
+  </section>
+</section>

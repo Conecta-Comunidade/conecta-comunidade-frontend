@@ -1,0 +1,88 @@
+<section class="flex min-h-full flex-col gap-6 rounded-2xl bg-slate-50 px-6 py-8">
+  <!-- Header -->
+  <header class="flex w-full items-center gap-4">
+    <a
+      routerLink="/home"
+      class="text-sm font-medium text-slate-600 transition-colors hover:text-blue-700"
+    >
+      Voltar
+    </a>
+
+    <div class="flex-1 space-y-0.5">
+      <h1 class="text-center text-2xl font-bold tracking-tight text-slate-900 italic">
+        Busque Serviços Sociais
+      </h1>
+
+      <p class="text-center text-sm font-light text-gray-950 italic">
+        Todos os serviços aqui oferecidos são grátis
+      </p>
+    </div>
+
+    <div class="w-12"></div>
+  </header>
+
+  <form class="mx-auto flex w-full max-w-2xl items-center gap-3" (ngSubmit)="buscarServicos()">
+    <input
+      type="text"
+      id="busca"
+      name="busca"
+      [(ngModel)]="termoBusca"
+      placeholder="Busque um serviço..."
+      class=": h-10 flex-1 rounded-sm border border-blue-200 px-5 text-sm italic shadow-none focus:border-blue-400 focus:ring-0"
+    />
+
+    <button
+      type="submit"
+      aria-label="Buscar serviço"
+      class="flex size-10 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-blue-300 shadow-sm transition-all hover:border-blue-300 hover:bg-blue-50 hover:text-blue-500"
+    >
+      <i class="pi pi-search text-base"></i>
+    </button>
+  </form>
+
+  <section class="mx-auto flex w-full max-w-2xl flex-col gap-5">
+    @for (agendamento of agendamentos; track agendamento.id) {
+      <article
+        class="group flex min-h-28 w-full overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+        [style.border-left]="'8px solid ' + agendamento.cor"
+      >
+        <div class="flex items-center justify-center px-4">
+          <div
+            class="flex size-14 shrink-0 items-center justify-center rounded-full"
+            [style.background-color]="agendamento.cor"
+          >
+            <i [class]="agendamento.icone" class="text-[1.3rem] text-slate-950"></i>
+          </div>
+        </div>
+
+        <div class="flex flex-1 flex-col justify-center py-3 pr-4">
+          <h2 class="text-sm leading-tight font-medium text-slate-950">
+            {{ agendamento.servico }}
+          </h2>
+
+          <p class="text-sm leading-tight font-medium text-slate-900">
+            {{ agendamento.data }} às {{ agendamento.hora }}
+          </p>
+
+          <p class="text-sm leading-tight text-slate-900">
+            {{ agendamento.prestador }}
+          </p>
+
+          <p class="mt-1 text-xs text-slate-600">
+            {{ agendamento.local }}
+          </p>
+        </div>
+      </article>
+    } @empty {
+      <div
+        class="flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-300 bg-white px-6 py-12 text-center"
+      >
+        <i class="pi pi-search text-3xl text-slate-400"></i>
+
+        <h2 class="mt-4 text-lg font-semibold text-slate-800">Nenhum serviço encontrado</h2>
+
+        <p class="mt-1 text-sm text-slate-500">Tente buscar por outro serviço.</p>
+      </div>
+    }
+  </section>
+</section>
