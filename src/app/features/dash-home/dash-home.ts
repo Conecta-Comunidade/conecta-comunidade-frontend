@@ -23,14 +23,14 @@ export class DashHome {
       rota: '/agendamentos',
       icone: 'pi-clock',
       titulo: 'Meus Agendamentos',
-      descricao: 'Veja e gerencie seus horários',
+      descricao: 'Confira seus serviços agendados e gerencie seus horários',
       iconeClass: 'bg-green-50 text-green-500',
     },
     {
       rota: '/buscar-servicos',
       icone: 'pi-th-large',
       titulo: 'Serviços Disponíveis',
-      descricao: 'Conheça nossos serviços',
+      descricao: 'Encontre serviços gratuitos e faça sua inscrição',
       iconeClass: 'bg-purple-50 text-purple-500',
     },
   ];

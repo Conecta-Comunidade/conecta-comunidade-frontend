@@ -8,18 +8,18 @@
       Voltar
     </a>
 
-    <h1 class="flex-1 text-center text-2xl font-bold tracking-tight text-slate-900 italic">
-      Meus Agendamentos
-    </h1>
+    <section class="flex w-full flex-col items-center gap-2">
+      <h1 class="text-xl font-bold tracking-tight text-slate-900">Meus Agendamentos</h1>
+
+      <p class="text-sm text-slate-500">Visualize e gerencie seus agendamentos com facilidade</p>
+    </section>
 
     <div class="w-12"></div>
   </header>
-  <section class="flex w-full justify-center">
-    <app-button (click)="goToAgendamento()" class="w-full max-w-sm">
-      <i class="pi pi-plus mr-2"></i>
-      Novo Agendamento
-    </app-button>
-  </section>
+  <app-button (click)="goToAgendamento()" class="w-full max-w-sm self-center">
+    <i class="pi pi-plus mr-2"></i>
+    Novo Agendamento
+  </app-button>
   <section class="grid w-full grid-cols-1 gap-5 md:grid-cols-2">
     @for (agendamento of agendamentos; track agendamento.id) {
       <article
