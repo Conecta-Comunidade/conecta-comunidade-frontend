@@ -27,53 +27,31 @@
     </section>
 
     <section class="flex flex-col gap-4">
-      <a
-        routerLink="/servicos"
-        class="flex h-24 cursor-pointer items-center gap-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm hover:bg-slate-50"
-      >
-        <div class="flex size-12 items-center justify-center rounded-lg bg-blue-50">
-          <span class="pi pi-calendar-plus text-xl text-blue-500"></span>
-        </div>
+      @for (opcao of opcoesMenuBaseadoNoUsuario; track opcao.rota) {
+        <a
+          [routerLink]="opcao.rota"
+          class="flex h-24 items-center gap-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm hover:bg-slate-50"
+        >
+          <div
+            class="flex size-12 items-center justify-center rounded-lg"
+            [class]="opcao.iconeClass"
+          >
+            <span class="pi text-xl" [class]="opcao.icone"></span>
+          </div>
 
-        <div class="flex flex-1 flex-col gap-1">
-          <h3 class="font-semibold text-slate-900">Agendar Serviços</h3>
-          <p class="text-sm text-slate-500">Rápido e em poucos segundos</p>
-        </div>
+          <div class="flex flex-1 flex-col gap-1">
+            <h3 class="font-semibold text-slate-900">
+              {{ opcao.titulo }}
+            </h3>
 
-        <span class="pi pi-chevron-right text-slate-400" style="font-size: 1.5rem"></span>
-      </a>
+            <p class="text-sm text-slate-500">
+              {{ opcao.descricao }}
+            </p>
+          </div>
 
-      <a
-        routerLink="/agendamentos"
-        class="flex h-24 cursor-pointer items-center gap-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm hover:bg-slate-50"
-      >
-        <div class="flex size-12 items-center justify-center rounded-lg bg-green-50">
-          <span class="pi pi-clock text-xl text-green-500"></span>
-        </div>
-
-        <a [routerLink]="'agendamentos'" class="flex flex-1 flex-col gap-1">
-          <h3 class="font-semibold text-slate-900">Meus Agendamentos</h3>
-          <p class="text-sm text-slate-500">Ver e gerenciar seus horários</p>
+          <span class="pi pi-chevron-right text-xl text-slate-400"></span>
         </a>
-
-        <span class="pi pi-chevron-right text-slate-400" style="font-size: 1.5rem"></span>
-      </a>
-
-      <a
-        routerLink="/buscar-servicos"
-        class="flex h-24 cursor-pointer items-center gap-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm hover:bg-slate-50"
-      >
-        <div class="flex size-12 items-center justify-center rounded-lg bg-purple-50">
-          <span class="pi pi-th-large text-xl text-purple-500"></span>
-        </div>
-
-        <div class="flex flex-1 flex-col gap-1">
-          <h3 class="font-semibold text-slate-900">Serviços Disponíveis</h3>
-          <p class="text-sm text-slate-500">Conheça nossos serviços</p>
-        </div>
-
-        <span class="pi pi-chevron-right text-slate-400" style="font-size: 1.5rem"></span>
-      </a>
+      }
     </section>
   </div>
 </section>

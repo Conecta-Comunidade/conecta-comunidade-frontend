@@ -1,14 +1,20 @@
-import { Component } from '@angular/core';
+import { Location } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-buscar-servicos',
-  imports: [RouterLink, FormsModule],
+  imports: [FormsModule],
   templateUrl: './buscar-servicos.html',
   styles: ``,
 })
 export class BuscarServicos {
+  public location = inject(Location);
+
+  public back() {
+    this.location.back();
+  }
+
   agendamentos = [
     {
       id: 1,

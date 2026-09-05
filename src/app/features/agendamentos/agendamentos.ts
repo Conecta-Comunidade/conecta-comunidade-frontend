@@ -1,14 +1,27 @@
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { Button } from '../../shared/components/button/button';
+import { ButtonIcon } from 'primeng/button';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-agendamentos',
-  imports: [RouterLink, Button],
+  imports: [Button, ButtonIcon],
   templateUrl: './agendamentos.html',
   styles: ``,
 })
 export class Agendamentos {
+  private router = inject(Router);
+  private location = inject(Location);
+
+  public back() {
+    this.location.back();
+  }
+
+  public goToAgendamento() {
+    this.router.navigateByUrl('/buscar-servicos');
+  }
+
   agendamentos = [
     {
       id: 1,

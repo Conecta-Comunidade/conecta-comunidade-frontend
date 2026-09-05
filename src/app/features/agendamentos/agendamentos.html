@@ -1,8 +1,8 @@
 <section class="flex min-h-full flex-col gap-8 rounded-2xl bg-slate-50 px-6 py-10">
   <header class="flex w-full items-center gap-4">
     <a
-      routerLink="/home"
-      class="group flex items-center gap-2 text-sm font-medium text-slate-500 transition-colors hover:text-blue-600"
+      (click)="back()"
+      class="group flex cursor-pointer items-center gap-2 text-sm font-medium text-slate-500 transition-colors hover:text-blue-600"
     >
       <i class="pi pi-arrow-left text-xs transition-transform group-hover:-translate-x-1"></i>
       Voltar
@@ -15,50 +15,81 @@
     <div class="w-12"></div>
   </header>
   <section class="flex w-full justify-center">
-    <app-button class="w-full max-w-sm">
+    <app-button (click)="goToAgendamento()" class="w-full max-w-sm">
       <i class="pi pi-plus mr-2"></i>
       Novo Agendamento
     </app-button>
   </section>
-  <section class="grid w-full grid-cols-1 gap-6 md:grid-cols-2">
+  <section class="grid w-full grid-cols-1 gap-5 md:grid-cols-2">
     @for (agendamento of agendamentos; track agendamento.id) {
       <article
-        class="group flex min-h-28 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
-        [class.border-l-8]="true"
+        class="group relative flex min-h-32 overflow-visible rounded-2xl border border-l-8 border-slate-200 bg-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
         [style.border-left-color]="agendamento.cor"
       >
-        <div class="flex items-center justify-center px-4">
+        <button
+          pButtonIcon
+          type="button"
+          aria-label="Cancelar agendamento"
+          class="absolute -top-3 -right-3 z-10 flex size-9 cursor-pointer items-center justify-center rounded-full border border-slate-200 bg-white text-slate-400 shadow-sm transition-all hover:border-red-200 hover:bg-red-50 hover:text-red-500"
+        >
+          <i class="pi pi-trash text-sm"></i>
+        </button>
+
+        <div class="flex items-center justify-center px-5">
           <div
             class="flex size-14 shrink-0 items-center justify-center rounded-full"
             [style.background-color]="agendamento.cor"
           >
-            <i [class]="agendamento.icone" style="font-size: 1.3rem"></i>
+            <i [class]="agendamento.icone" class="text-lg text-white"></i>
           </div>
         </div>
-        <div class="flex flex-1 flex-col justify-center py-3 pr-4">
-          <h2 class="text-sm font-medium text-slate-950">
+
+        <div class="flex flex-1 flex-col justify-center gap-1.5 py-4 pr-5">
+          <h2 class="text-base leading-tight font-semibold text-slate-900">
             {{ agendamento.servico }}
           </h2>
-          <p class="text-sm font-medium text-slate-900">
-            {{ agendamento.data }} às {{ agendamento.hora }}
-          </p>
-          <p class="text-sm text-slate-900">
-            {{ agendamento.prestador }}
-          </p>
-          <p class="mt-1 text-xs text-slate-600">
-            {{ agendamento.local }}
-          </p>
+
+          <div class="flex items-center gap-2 text-sm">
+            <i class="pi pi-calendar text-xs text-slate-400"></i>
+            <span class="font-medium text-slate-700">
+              {{ agendamento.data }}
+            </span>
+
+            <span class="text-slate-300">•</span>
+
+            <i class="pi pi-clock text-xs text-slate-400"></i>
+            <span class="text-slate-600">
+              {{ agendamento.hora }}
+            </span>
+          </div>
+          <div class="flex items-center gap-2 text-sm">
+            <i class="pi pi-user text-xs text-slate-400"></i>
+            <span class="text-slate-600">
+              {{ agendamento.prestador }}
+            </span>
+          </div>
+          <div class="mt-0.5 flex items-center gap-2">
+            <i class="pi pi-map-marker text-xs text-slate-400"></i>
+            <span class="truncate text-xs text-slate-500">
+              {{ agendamento.local }}
+            </span>
+          </div>
         </div>
       </article>
     } @empty {
       <div
-        class="col-span-full flex flex-col items-center justify-center rounded-xl border border-dashed border-slate-300 bg-white px-6 py-12 text-center"
+        class="col-span-full flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-white px-6 py-14 text-center"
       >
-        <i class="pi pi-calendar text-3xl text-slate-400"></i>
+        <div class="flex size-14 items-center justify-center rounded-full bg-slate-100">
+          <i class="pi pi-calendar text-xl text-slate-400"></i>
+        </div>
 
-        <h2 class="mt-4 text-lg font-semibold text-slate-800">Nenhum agendamento</h2>
+        <h2 class="mt-4 text-base font-semibold text-slate-800">Nenhum agendamento encontrado</h2>
 
-        <p class="mt-1 text-sm text-slate-500">Você ainda não possui nenhum serviço agendado.</p>
+        <p class="mt-1 max-w-sm text-sm leading-relaxed text-slate-500">
+          Você ainda não possui nenhum serviço agendado. Quando realizar um agendamento, ele
+          aparecerá aqui.
+        </p>
       </div>
     }
   </section>

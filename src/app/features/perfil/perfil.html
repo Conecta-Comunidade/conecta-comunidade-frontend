@@ -1,8 +1,8 @@
 <section class="flex min-h-full flex-col gap-8 rounded-2xl bg-slate-50 px-6 py-8">
   <header class="flex w-full items-center gap-4">
     <a
-      routerLink="/home"
-      class="group flex items-center gap-2 text-sm font-medium text-slate-500 transition-colors hover:text-blue-600"
+      (click)="back()"
+      class="group flex cursor-pointer items-center gap-2 text-sm font-medium text-slate-500 transition-colors hover:text-blue-600"
     >
       <i class="pi pi-arrow-left text-xs transition-transform group-hover:-translate-x-1"></i>
       Voltar
