@@ -20,6 +20,10 @@ export const routes: Routes = [
         loadComponent: () => import('./features/dash-home/dash-home').then((m) => m.DashHome),
       },
       {
+        path: 'perfil',
+        loadComponent: () => import('./features/perfil/perfil').then((m) => m.Perfil),
+      },
+      {
         path: 'agendamentos',
         loadComponent: () =>
           import('./features/agendamentos/agendamentos').then((m) => m.Agendamentos),
