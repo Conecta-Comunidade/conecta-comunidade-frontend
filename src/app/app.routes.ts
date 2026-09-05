@@ -33,6 +33,11 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/buscar-servicos/buscar-servicos').then((m) => m.BuscarServicos),
       },
+      {
+        path: 'criar-servico',
+        loadComponent: () =>
+          import('./features/criar-servico/criar-servico').then((m) => m.CriarServico),
+      },
     ],
   },
 ];

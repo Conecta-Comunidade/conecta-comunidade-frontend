@@ -1,0 +1,154 @@
+<section class="flex min-h-full flex-col gap-8 rounded-2xl bg-slate-50 px-6 py-8">
+  <header class="flex items-center gap-4">
+    <button
+      type="button"
+      (click)="back()"
+      class="group flex cursor-pointer items-center gap-2 text-sm font-medium text-slate-500 transition-colors hover:text-blue-600"
+    >
+      <i
+        class="pi pi-arrow-left text-xs transition-transform duration-200 group-hover:-translate-x-1"
+      ></i>
+
+      Voltar
+    </button>
+
+    <div class="flex-1 text-center">
+      <h1 class="text-2xl font-bold tracking-tight text-slate-900">Criar Serviço</h1>
+
+      <p class="mt-1 text-sm text-slate-500">Cadastre um novo serviço para a comunidade</p>
+    </div>
+
+    <div class="w-12"></div>
+  </header>
+
+  <form class="mx-auto flex w-full max-w-2xl flex-col gap-6" (ngSubmit)="criarServico()">
+    <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <div class="mb-6">
+        <h2 class="text-base font-semibold text-slate-900">Informações do serviço</h2>
+
+        <p class="mt-1 text-sm text-slate-500">
+          Informe os detalhes do serviço que será oferecido.
+        </p>
+      </div>
+
+      <div class="flex flex-col gap-5">
+        <div class="flex flex-col gap-2">
+          <label for="servico" class="text-sm font-medium text-slate-700"> Serviço </label>
+
+          <input
+            id="servico"
+            name="servico"
+            type="text"
+            [(ngModel)]="servicoForm.servico"
+            placeholder="Ex.: Corte de cabelo gratuito"
+            class="h-11 rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-900 transition outline-none placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            required
+          />
+        </div>
+
+        <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+          <div class="flex flex-col gap-2">
+            <label for="data" class="text-sm font-medium text-slate-700"> Data </label>
+
+            <div class="relative">
+              <i class="pi pi-calendar absolute top-1/2 left-4 -translate-y-1/2 text-slate-400"></i>
+
+              <input
+                id="data"
+                name="data"
+                type="date"
+                [(ngModel)]="servicoForm.data"
+                class="h-11 w-full rounded-xl border border-slate-200 bg-white pr-4 pl-11 text-sm text-slate-900 transition outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label for="horario" class="text-sm font-medium text-slate-700"> Horário </label>
+
+            <div class="relative">
+              <i class="pi pi-clock absolute top-1/2 left-4 -translate-y-1/2 text-slate-400"></i>
+
+              <input
+                id="horario"
+                name="horario"
+                type="time"
+                [(ngModel)]="servicoForm.horario"
+                class="h-11 w-full rounded-xl border border-slate-200 bg-white pr-4 pl-11 text-sm text-slate-900 transition outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                required
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for="local" class="text-sm font-medium text-slate-700"> Local </label>
+
+          <div class="relative">
+            <i class="pi pi-map-marker absolute top-1/2 left-4 -translate-y-1/2 text-slate-400"></i>
+
+            <input
+              id="local"
+              name="local"
+              type="text"
+              [(ngModel)]="servicoForm.local"
+              placeholder="Ex.: Centro Comunitário"
+              class="h-11 w-full rounded-xl border border-slate-200 bg-white pr-4 pl-11 text-sm text-slate-900 transition outline-none placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+              required
+            />
+          </div>
+        </div>
+        <div class="flex flex-col gap-2">
+          <label for="vagas" class="text-sm font-medium text-slate-700">
+            Quantidade de vagas
+          </label>
+
+          <input
+            id="vagas"
+            name="vagas"
+            type="number"
+            min="1"
+            [(ngModel)]="servicoForm.vagas"
+            placeholder="Ex.: 10"
+            class="h-11 rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-900 transition outline-none placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            required
+          />
+
+          <span class="text-xs text-slate-400">
+            Informe quantas pessoas poderão se inscrever neste serviço.
+          </span>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for="descricao" class="text-sm font-medium text-slate-700"> Descrição </label>
+
+          <textarea
+            id="descricao"
+            name="descricao"
+            rows="5"
+            [(ngModel)]="servicoForm.descricao"
+            placeholder="Descreva o serviço, informações importantes, orientações para os participantes..."
+            class="resize-none rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 transition outline-none placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            required
+          ></textarea>
+        </div>
+      </div>
+    </section>
+
+    <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+      <app-button
+        type="button"
+        routerLink="/home"
+        class="h-11 rounded-xl bg-white px-5 text-sm font-semibold text-slate-600 transition hover:border-slate-300 hover:bg-slate-50"
+      >
+        Cancelar
+      </app-button>
+
+      <app-button>
+        <i class="pi pi-plus mr-1"></i>
+        Criar serviço
+      </app-button>
+    </div>
+  </form>
+</section>
