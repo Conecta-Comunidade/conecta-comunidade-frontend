@@ -6,6 +6,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { RouterLink } from '@angular/router';
+import { Button } from '../../../shared/components/button/button';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,7 @@ import { RouterLink } from '@angular/router';
     InputTextModule,
     PasswordModule,
     RouterLink,
+    Button,
   ],
   templateUrl: './login.html',
 })

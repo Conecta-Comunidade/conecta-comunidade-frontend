@@ -13,6 +13,7 @@ import { MessageModule } from 'primeng/message';
 import { PasswordModule } from 'primeng/password';
 import { InputMaskModule } from 'primeng/inputmask';
 import { SelectModule } from 'primeng/select';
+import { Button } from '../../../../shared/components/button/button';
 
 @Component({
   selector: 'app-prestador',
@@ -25,6 +26,7 @@ import { SelectModule } from 'primeng/select';
     RouterLink,
     SelectModule,
     InputMaskModule,
+    Button,
   ],
   templateUrl: './prestador.html',
   styles: ``,

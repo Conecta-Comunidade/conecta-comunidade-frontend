@@ -8,7 +8,6 @@
   </div>
 
   <form [formGroup]="CadastroForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-3">
-    <!-- Nome -->
     <div class="flex flex-col gap-1">
       <label
         for="nome"
@@ -34,7 +33,6 @@
       }
     </div>
 
-    <!-- Email -->
     <div class="flex flex-col gap-1">
       <label
         for="email"
@@ -70,7 +68,6 @@
       }
     </div>
 
-    <!-- Senha -->
     <div class="flex flex-col gap-1">
       <label
         for="senha"
@@ -106,7 +103,6 @@
       }
     </div>
 
-    <!-- Confirmar senha -->
     <div class="flex flex-col gap-1">
       <label
         for="confirmarSenha"
@@ -142,12 +138,7 @@
       }
     </div>
 
-    <button
-      class="mt-1 flex w-full cursor-pointer items-center justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-xs font-semibold tracking-wide text-white shadow-md shadow-blue-600/20 transition-all duration-200 hover:bg-blue-700 active:translate-y-0 disabled:cursor-not-allowed disabled:bg-blue-400"
-      type="submit"
-    >
-      Criar conta
-    </button>
+    <app-button class="w-full"> Criar conta </app-button>
   </form>
 
   <div class="mt-4 border-t border-slate-100 pt-4 text-center">

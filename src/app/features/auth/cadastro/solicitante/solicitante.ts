@@ -12,11 +12,19 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { RouterLink } from '@angular/router';
 import { Component, inject } from '@angular/core';
+import { Button } from '../../../../shared/components/button/button';
 
 @Component({
   selector: 'app-solicitante',
   templateUrl: './solicitante.html',
-  imports: [ReactiveFormsModule, MessageModule, InputTextModule, PasswordModule, RouterLink],
+  imports: [
+    ReactiveFormsModule,
+    MessageModule,
+    InputTextModule,
+    PasswordModule,
+    RouterLink,
+    Button,
+  ],
   styles: ``,
 })
 export class Solicitante {
