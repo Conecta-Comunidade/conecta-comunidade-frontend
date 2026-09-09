@@ -1,50 +1,60 @@
-<section class="flex min-h-full flex-col gap-8 rounded-2xl bg-slate-50 px-6 py-8">
-  <header class="flex w-full items-center gap-4">
-    <a
+<section
+  class="flex min-h-full flex-col gap-5 rounded-2xl bg-slate-50 px-4 py-6 sm:px-6 sm:py-8 md:gap-8"
+>
+  <header class="flex w-full items-center gap-2 md:gap-4">
+    <button
+      type="button"
       (click)="back()"
-      class="group flex cursor-pointer items-center gap-2 text-sm font-medium text-slate-500 transition-colors hover:text-blue-600"
+      class="group flex shrink-0 cursor-pointer items-center gap-2 text-sm font-medium text-slate-500 transition-colors hover:text-blue-600"
     >
-      <i class="pi pi-arrow-left text-xs transition-transform group-hover:-translate-x-1"></i>
-      Voltar
-    </a>
+      <i
+        class="pi pi-arrow-left text-xs transition-transform duration-200 group-hover:-translate-x-1"
+      ></i>
 
-    <div class="flex-1">
-      <h1 class="text-center text-2xl font-bold tracking-tight text-slate-900">Seu Perfil</h1>
+      <span class="hidden sm:inline">Voltar</span>
+    </button>
 
-      <p class="mt-1 text-center text-sm text-slate-500">Suas informações pessoais</p>
+    <div class="min-w-0 flex-1 text-center">
+      <h1 class="text-xl font-bold tracking-tight text-slate-900 sm:text-2xl">Seu Perfil</h1>
+
+      <p class="mt-1 hidden text-sm text-slate-500 sm:block">Suas informações pessoais</p>
     </div>
 
-    <div class="w-14"></div>
+    <div class="w-7 shrink-0 sm:w-14"></div>
   </header>
 
   <section
     class="mx-auto flex w-full max-w-lg flex-col items-center overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
   >
-    <div class="flex w-full justify-center bg-blue-50 py-8">
+    <div class="flex w-full justify-center bg-blue-50 py-6 sm:py-8">
       <div
-        class="flex size-28 items-center justify-center rounded-full border-4 border-white bg-blue-100 text-blue-600 shadow-sm"
+        class="flex size-24 items-center justify-center rounded-full border-4 border-white bg-blue-100 text-blue-600 shadow-sm sm:size-28"
       >
-        <i class="pi pi-user" style="font-size: 2rem"></i>
+        <i class="pi pi-user text-2xl sm:text-3xl"></i>
       </div>
     </div>
 
-    <div class="flex w-full flex-col gap-5 p-6">
-      <div class="flex flex-col gap-1">
+    <div class="flex w-full flex-col gap-5 p-5 sm:p-6">
+      <div class="flex min-w-0 flex-col gap-1">
         <span class="text-xs font-semibold tracking-wider text-slate-400 uppercase"> Nome </span>
 
-        <p class="text-base font-semibold text-slate-900">João Marcos</p>
+        <p class="truncate text-base font-semibold text-slate-900">João Marcos</p>
       </div>
 
       <div class="h-px bg-slate-100"></div>
 
-      <div class="flex flex-col gap-1">
+      <div class="flex min-w-0 flex-col gap-1">
         <span class="text-xs font-semibold tracking-wider text-slate-400 uppercase"> Email </span>
 
-        <p class="text-base font-medium text-slate-700">joaomarcos@email.com</p>
+        <p class="truncate text-sm font-medium text-slate-700 sm:text-base">joaomarcos@email.com</p>
       </div>
     </div>
+
     <div class="flex w-full border-t border-slate-100 bg-slate-50 p-4">
-      <app-button type="button" class="ml-auto text-sm font-semibold text-white shadow-sm">
+      <app-button
+        type="button"
+        class="ml-auto w-full text-sm font-semibold text-white shadow-sm sm:w-auto"
+      >
         <i class="pi pi-pencil mr-2 text-xs"></i>
         Editar perfil
       </app-button>

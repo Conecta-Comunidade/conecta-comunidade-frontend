@@ -10,7 +10,7 @@ export class Button {
 
   classes() {
     return cn(
-      'cursor-pointer rounded-lg bg-blue-400 px-4 py-2 font-semibold text-white transition-colors hover:bg-blue-400/90',
+      'cursor-pointer text-sm md:text-base rounded-lg bg-blue-400 px-4 py-2 font-semibold text-white transition-colors hover:bg-blue-400/90',
       this.class(),
     );
   }
