@@ -16,7 +16,7 @@ import { SelectModule } from 'primeng/select';
 import { Button } from '../../../../shared/components/button/button';
 
 @Component({
-  selector: 'app-prestador',
+  selector: 'app-contributor',
   standalone: true,
   imports: [
     ReactiveFormsModule,
@@ -28,10 +28,10 @@ import { Button } from '../../../../shared/components/button/button';
     InputMaskModule,
     Button,
   ],
-  templateUrl: './prestador.html',
+  templateUrl: './contributor.html',
   styles: ``,
 })
-export class Prestador {
+export class Contributor {
   areas = [
     { label: 'Educação', value: 'EDUCACAO' },
     { label: 'Saúde', value: 'SAUDE' },

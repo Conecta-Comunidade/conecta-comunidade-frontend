@@ -27,7 +27,7 @@ export class BuscarServicos {
       especialidade: 'Beleza',
       data: '12/09/2026',
       hora: '09:30',
-      prestador: 'Carlos Cabelos',
+      CONTRIBUTOR: 'Carlos Cabelos',
       local: 'Centro Comunitário',
       vagas: 5,
       icone: 'pi pi-user-plus',
@@ -39,7 +39,7 @@ export class BuscarServicos {
       especialidade: 'Saúde',
       data: '12/09/2026',
       hora: '09:30',
-      prestador: 'Dra. Camila Horta',
+      CONTRIBUTOR: 'Dra. Camila Horta',
       local: 'UBS Municipal',
       vagas: 2,
       icone: 'pi pi-heart',
@@ -51,7 +51,7 @@ export class BuscarServicos {
       especialidade: 'Educação',
       data: '12/09/2026',
       hora: '09:30',
-      prestador: 'Maria de Sousa',
+      CONTRIBUTOR: 'Maria de Sousa',
       local: 'Escola Municipal São Francisco',
       vagas: 0,
       icone: 'pi pi-book',
@@ -76,7 +76,7 @@ export class BuscarServicos {
       const correspondeBusca =
         !termo ||
         servico.servico.toLowerCase().includes(termo) ||
-        servico.prestador.toLowerCase().includes(termo);
+        servico.CONTRIBUTOR.toLowerCase().includes(termo);
 
       const correspondeEspecialidade =
         !this.especialidadeSelecionada || servico.especialidade === this.especialidadeSelecionada;

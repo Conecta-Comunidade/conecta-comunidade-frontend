@@ -17,8 +17,8 @@ interface OpcaoMenu {
   styles: ``,
 })
 export class DashHome {
-  userRole: UserRole = UserRole.SOLICITANTE;
-  itemsMenuSolicitante: OpcaoMenu[] = [
+  userRole: UserRole = UserRole.BENEFICIARY;
+  itemsMenuBENEFICIARY: OpcaoMenu[] = [
     {
       rota: '/agendamentos',
       icone: 'pi-clock',
@@ -35,7 +35,7 @@ export class DashHome {
     },
   ];
 
-  itemsMenuPrestador: OpcaoMenu[] = [
+  itemsMenuCONTRIBUTOR: OpcaoMenu[] = [
     {
       rota: '/meus-servicos',
       icone: 'pi-list',
@@ -54,11 +54,11 @@ export class DashHome {
 
   get opcoesMenuBaseadoNoUsuario(): OpcaoMenu[] {
     switch (this.userRole) {
-      case UserRole.SOLICITANTE:
-        return this.itemsMenuSolicitante;
+      case UserRole.BENEFICIARY:
+        return this.itemsMenuBENEFICIARY;
 
-      case UserRole.PRESTADOR:
-        return this.itemsMenuPrestador;
+      case UserRole.CONTRIBUTOR:
+        return this.itemsMenuCONTRIBUTOR;
 
       case UserRole.ADMIN:
         return [

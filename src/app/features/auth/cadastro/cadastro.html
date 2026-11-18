@@ -7,25 +7,25 @@
         <p-tablist>
           <p-tab
             class="w-1/2 rounded-t-2xl text-center text-sm transition-all data-[p-active=true]:bg-blue-400! data-[p-active=true]:text-white!"
-            value="SOLICITANTE"
+            value="BENEFICIARY"
           >
             Busco Serviço
           </p-tab>
 
           <p-tab
             class="w-1/2 rounded-t-2xl text-center text-sm transition-all data-[p-active=true]:bg-blue-400! data-[p-active=true]:text-white!"
-            value="PRESTADOR"
+            value="CONTRIBUTOR"
           >
             Ofereço Serviço
           </p-tab>
         </p-tablist>
 
         <p-tabpanels>
-          <p-tabpanel value="SOLICITANTE">
-            <app-solicitante />
+          <p-tabpanel value="BENEFICIARY">
+            <app-beneficiary />
           </p-tabpanel>
-          <p-tabpanel value="PRESTADOR">
-            <app-prestador></app-prestador>
+          <p-tabpanel value="CONTRIBUTOR">
+            <app-contributor></app-contributor>
           </p-tabpanel>
         </p-tabpanels>
       </p-tabs>

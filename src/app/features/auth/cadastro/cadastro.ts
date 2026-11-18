@@ -6,9 +6,9 @@ import { MessageModule } from 'primeng/message';
 import { ToastModule } from 'primeng/toast';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
-import { Solicitante } from './solicitante/solicitante';
 import { TabsModule } from 'primeng/tabs';
-import { Prestador } from './prestador/prestador';
+import { Contributor } from './contributor/contributor';
+import { Beneficiary } from './beneficiary/beneficiary';
 
 @Component({
   selector: 'app-cadastro',
@@ -18,12 +18,12 @@ import { Prestador } from './prestador/prestador';
     ToastModule,
     InputTextModule,
     PasswordModule,
-    Solicitante,
+    Contributor,
     TabsModule,
-    Prestador,
+    Beneficiary,
   ],
   templateUrl: './cadastro.html',
 })
 export class Cadastro {
-  tabs: 'SOLICITANTE' | 'PRESTADOR' = 'SOLICITANTE';
+  tabs: 'BENEFICIARY' | 'CONTRIBUTOR' = 'BENEFICIARY';
 }
