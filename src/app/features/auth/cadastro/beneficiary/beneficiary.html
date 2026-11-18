@@ -7,7 +7,7 @@
     </p>
   </div>
 
-  <form [formGroup]="CadastroForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-3">
+  <form [formGroup]="cadastroForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-3">
     <div class="flex flex-col gap-1">
       <label
         for="name"
@@ -28,7 +28,7 @@
         pSize="small"
       />
 
-      @if (isInvalid('name') && CadastroForm.get('name')?.errors?.['required']) {
+      @if (isInvalid('name') && cadastroForm.get('name')?.errors?.['required']) {
         <p-message severity="error" size="small" variant="simple"> Nome é obrigatório. </p-message>
       }
     </div>
@@ -54,13 +54,13 @@
       />
 
       @if (isInvalid('email')) {
-        @if (CadastroForm.get('email')?.errors?.['required']) {
+        @if (cadastroForm.get('email')?.errors?.['required']) {
           <p-message severity="error" size="small" variant="simple">
             Email é obrigatório.
           </p-message>
         }
 
-        @if (CadastroForm.get('email')?.errors?.['email']) {
+        @if (cadastroForm.get('email')?.errors?.['email']) {
           <p-message severity="error" size="small" variant="simple">
             Escolha um email válido.
           </p-message>
@@ -89,13 +89,13 @@
       />
 
       @if (isInvalid('password')) {
-        @if (CadastroForm.get('password')?.errors?.['required']) {
+        @if (cadastroForm.get('password')?.errors?.['required']) {
           <p-message severity="error" size="small" variant="simple">
             Senha é obrigatória.
           </p-message>
         }
 
-        @if (CadastroForm.get('password')?.errors?.['pattern']) {
+        @if (cadastroForm.get('password')?.errors?.['pattern']) {
           <p-message severity="error" size="small" variant="simple">
             A senha deve ter no mínimo 6 caracteres, contendo letras e números.
           </p-message>
@@ -109,7 +109,7 @@
         [class.text-red-700]="isInvalid('confirmarPassword')"
         class="text-xs font-medium text-slate-700"
       >
-        Confirmar Password
+        Confirmar senha
       </label>
 
       <p-password
@@ -124,13 +124,13 @@
       />
 
       @if (isInvalid('confirmarPassword')) {
-        @if (CadastroForm.get('confirmarPassword')?.errors?.['required']) {
+        @if (cadastroForm.get('confirmarPassword')?.errors?.['required']) {
           <p-message severity="error" size="small" variant="simple">
             Confirmação de senha é obrigatória.
           </p-message>
         }
 
-        @if (CadastroForm.get('confirmarPassword')?.errors?.['passwordMismatch']) {
+        @if (cadastroForm.get('confirmarPassword')?.errors?.['passwordMismatch']) {
           <p-message severity="error" size="small" variant="simple">
             As senhas não coincidem.
           </p-message>
@@ -138,7 +138,7 @@
       }
     </div>
 
-    <app-button [disabled]="formSubmitted" class="w-full">
+    <app-button [disabled]="formSubmitted || cadastroForm.invalid" class="w-full">
       @if (!formSubmitted) {
         Criar conta
       } @else {

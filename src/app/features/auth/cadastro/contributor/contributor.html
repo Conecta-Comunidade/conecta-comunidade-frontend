@@ -7,11 +7,11 @@
     </p>
   </div>
 
-  <form [formGroup]="CadastroForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-3">
+  <form [formGroup]="cadastroForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-3">
     <div class="flex flex-col gap-1">
       <label
-        for="nome"
-        [class.text-red-700]="isInvalid('nome')"
+        for="name"
+        [class.text-red-700]="isInvalid('name')"
         class="text-xs font-medium text-slate-700"
       >
         Nome
@@ -20,15 +20,15 @@
       <input
         pInputText
         type="text"
-        id="nome"
+        id="name"
         placeholder="Seu nome"
-        formControlName="nome"
-        [invalid]="isInvalid('nome')"
+        formControlName="name"
+        [invalid]="isInvalid('name')"
         class="w-full"
         pSize="small"
       />
 
-      @if (isInvalid('nome') && CadastroForm.get('nome')?.errors?.['required']) {
+      @if (isInvalid('name') && cadastroForm.get('name')?.errors?.['required']) {
         <p-message severity="error" size="small" variant="simple"> Nome é obrigatório. </p-message>
       }
     </div>
@@ -54,13 +54,13 @@
       />
 
       @if (isInvalid('email')) {
-        @if (CadastroForm.get('email')?.errors?.['required']) {
+        @if (cadastroForm.get('email')?.errors?.['required']) {
           <p-message severity="error" size="small" variant="simple">
             Email é obrigatório.
           </p-message>
         }
 
-        @if (CadastroForm.get('email')?.errors?.['email']) {
+        @if (cadastroForm.get('email')?.errors?.['email']) {
           <p-message severity="error" size="small" variant="simple">
             Escolha um email válido.
           </p-message>
@@ -68,76 +68,34 @@
       }
     </div>
 
-    <div class="flex w-full flex-col gap-3 sm:flex-row">
-      <div class="flex w-full flex-col gap-1">
-        <label
-          for="contato"
-          [class.text-red-700]="isInvalid('contato')"
-          class="text-xs font-medium text-slate-700"
-        >
-          Contato
-        </label>
-
-        <p-inputmask
-          id="contato"
-          formControlName="contato"
-          mask="(99) 99999-9999"
-          placeholder="(99) 99999-9999"
-          [invalid]="isInvalid('contato')"
-          styleClass="w-full"
-          size="small"
-        />
-      </div>
-      <div class="flex w-full flex-col gap-1">
-        <label
-          for="area"
-          [class.text-red-700]="isInvalid('area')"
-          class="text-xs font-medium text-slate-700"
-        >
-          Área de atuação
-        </label>
-
-        <p-select
-          id="area"
-          formControlName="area"
-          [options]="areas"
-          optionLabel="label"
-          optionValue="value"
-          placeholder="Selecione uma área"
-          [invalid]="isInvalid('area')"
-          size="small"
-        />
-      </div>
-    </div>
-
     <div class="flex flex-col gap-1">
       <label
-        for="senha"
-        [class.text-red-700]="isInvalid('senha')"
+        for="password"
+        [class.text-red-700]="isInvalid('password')"
         class="text-xs font-medium text-slate-700"
       >
         Senha
       </label>
 
       <p-password
-        id="senha"
-        formControlName="senha"
+        id="password"
+        formControlName="password"
         placeholder="Digite sua senha"
         [toggleMask]="true"
         [feedback]="false"
-        [invalid]="isInvalid('senha')"
+        [invalid]="isInvalid('password')"
         inputStyleClass="w-full"
         size="small"
       />
 
-      @if (isInvalid('senha')) {
-        @if (CadastroForm.get('senha')?.errors?.['required']) {
+      @if (isInvalid('password')) {
+        @if (cadastroForm.get('password')?.errors?.['required']) {
           <p-message severity="error" size="small" variant="simple">
             Senha é obrigatória.
           </p-message>
         }
 
-        @if (CadastroForm.get('senha')?.errors?.['pattern']) {
+        @if (cadastroForm.get('password')?.errors?.['pattern']) {
           <p-message severity="error" size="small" variant="simple">
             Mínimo de 6 caracteres, contendo letras e números.
           </p-message>
@@ -147,40 +105,46 @@
 
     <div class="flex flex-col gap-1">
       <label
-        for="confirmarSenha"
-        [class.text-red-700]="isInvalid('confirmarSenha')"
+        for="confirmarPassword"
+        [class.text-red-700]="isInvalid('confirmarPassword')"
         class="text-xs font-medium text-slate-700"
       >
         Confirmar senha
       </label>
 
       <p-password
-        id="confirmarSenha"
-        formControlName="confirmarSenha"
+        id="confirmarPassword"
+        formControlName="confirmarPassword"
         placeholder="Digite sua senha novamente"
         [toggleMask]="true"
         [feedback]="false"
-        [invalid]="isInvalid('confirmarSenha')"
+        [invalid]="isInvalid('confirmarPassword')"
         inputStyleClass="w-full"
         size="small"
       />
 
-      @if (isInvalid('confirmarSenha')) {
-        @if (CadastroForm.get('confirmarSenha')?.errors?.['required']) {
+      @if (isInvalid('confirmarPassword')) {
+        @if (cadastroForm.get('confirmarPassword')?.errors?.['required']) {
           <p-message severity="error" size="small" variant="simple">
             Confirmação de senha é obrigatória.
           </p-message>
         }
 
-        @if (CadastroForm.get('confirmarSenha')?.errors?.['passwordMismatch']) {
+        @if (cadastroForm.get('confirmarPassword')?.errors?.['passwordMismatch']) {
           <p-message severity="error" size="small" variant="simple">
-            As senhas não coincidem.
+            As senha não coincidem.
           </p-message>
         }
       }
     </div>
 
-    <app-button class="w-full"> Criar conta </app-button>
+    <app-button [disabled]="formSubmitted || cadastroForm.invalid" class="w-full">
+      @if (!formSubmitted) {
+        Criar conta
+      } @else {
+        Cadastrando...
+      }
+    </app-button>
   </form>
 
   <div class="mt-4 border-t border-slate-100 pt-4 text-center">
@@ -193,4 +157,5 @@
       Entrar
     </a>
   </div>
+  <p-toast position="top-center" />
 </section>

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, output } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -7,17 +7,22 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-import { InputTextModule } from 'primeng/inputtext';
 import { MessageModule } from 'primeng/message';
+import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
-import { InputMaskModule } from 'primeng/inputmask';
-import { SelectModule } from 'primeng/select';
+import { Router, RouterLink } from '@angular/router';
 import { Button } from '../../../../shared/components/button/button';
+import { AuthService } from '../../services/auth';
+import { UserRole } from '../../../model/user-role';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { HttpErrorResponse } from '@angular/common/http';
+import { SelectModule } from 'primeng/select';
+import { InputMaskModule } from 'primeng/inputmask';
 
 @Component({
   selector: 'app-contributor',
-  standalone: true,
+  templateUrl: './contributor.html',
   imports: [
     ReactiveFormsModule,
     MessageModule,
@@ -27,38 +32,33 @@ import { Button } from '../../../../shared/components/button/button';
     SelectModule,
     InputMaskModule,
     Button,
+    ToastModule,
   ],
-  templateUrl: './contributor.html',
   styles: ``,
 })
 export class Contributor {
-  areas = [
-    { label: 'Educação', value: 'EDUCACAO' },
-    { label: 'Saúde', value: 'SAUDE' },
-    { label: 'Assistência Social', value: 'ASSISTENCIA_SOCIAL' },
-    { label: 'Esporte e Lazer', value: 'ESPORTE_LAZER' },
-    { label: 'Cultura', value: 'CULTURA' },
-    { label: 'Meio Ambiente', value: 'MEIO_AMBIENTE' },
-    { label: 'Serviços Administrativos', value: 'SERVICOS_ADMINISTRATIVOS' },
-    { label: 'Tecnologia', value: 'TECNOLOGIA' },
-    { label: 'Outros', value: 'OUTROS' },
-  ];
   private fb = inject(FormBuilder);
+  private authService = inject(AuthService);
+  private messageService = inject(MessageService);
+  private router = inject(Router);
+
+  isTabDisabled = output<boolean>();
+
+  lockTabs(isDisabled: boolean): void {
+    this.isTabDisabled.emit(isDisabled);
+  }
 
   formSubmitted = false;
 
-  CadastroForm: FormGroup = this.fb.group(
+  cadastroForm: FormGroup = this.fb.group(
     {
-      nome: ['', Validators.required],
+      name: ['', Validators.required],
 
       email: ['', [Validators.required, Validators.email]],
-      contato: ['', [Validators.required]],
 
-      area: ['', [Validators.required]],
+      password: ['', [Validators.required, Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d).{6,}$/)]],
 
-      senha: ['', [Validators.required, Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d).{6,}$/)]],
-
-      confirmarSenha: ['', Validators.required],
+      confirmarPassword: ['', Validators.required],
     },
     {
       validators: this.passwordMatchValidator,
@@ -66,27 +66,27 @@ export class Contributor {
   );
 
   passwordMatchValidator(form: AbstractControl): ValidationErrors | null {
-    const senha = form.get('senha')?.value;
-    const confirmarSenha = form.get('confirmarSenha')?.value;
+    const password = form.get('password')?.value;
+    const confirmarPassword = form.get('confirmarPassword')?.value;
 
-    if (senha !== confirmarSenha) {
-      form.get('confirmarSenha')?.setErrors({
-        ...form.get('confirmarSenha')?.errors,
+    if (password !== confirmarPassword) {
+      form.get('confirmarPassword')?.setErrors({
+        ...form.get('confirmarPassword')?.errors,
         passwordMismatch: true,
       });
 
       return { passwordMismatch: true };
     }
 
-    const errors = form.get('confirmarSenha')?.errors;
+    const errors = form.get('confirmarPassword')?.errors;
 
     if (errors?.['passwordMismatch']) {
       delete errors['passwordMismatch'];
 
       if (Object.keys(errors).length === 0) {
-        form.get('confirmarSenha')?.setErrors(null);
+        form.get('confirmarPassword')?.setErrors(null);
       } else {
-        form.get('confirmarSenha')?.setErrors(errors);
+        form.get('confirmarPassword')?.setErrors(errors);
       }
     }
 
@@ -96,21 +96,65 @@ export class Contributor {
   onSubmit() {
     this.formSubmitted = true;
 
-    if (this.CadastroForm.invalid) {
+    if (this.cadastroForm.invalid) {
       return;
     }
 
-    const cadastroData = this.CadastroForm.value;
+    const { confirmarPassword, ...cadastroData } = this.cadastroForm.value;
 
-    console.log(cadastroData);
+    const data = {
+      ...cadastroData,
+      role: UserRole.CONTRIBUTOR,
+    };
 
-    this.CadastroForm.reset();
+    this.lockTabs(true);
+    this.authService.register(data).subscribe({
+      next: () => this.handleRegisterSuccess(),
+      error: (error: HttpErrorResponse) => this.handleRegisterError(error),
+    });
+  }
+
+  private handleRegisterSuccess(): void {
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Sucesso',
+      detail: 'Cadastro realizado com sucesso!',
+    });
+
+    this.cadastroForm.reset();
+    this.formSubmitted = false;
+
+    this.slowRedirectToLoginPage();
+  }
+
+  private handleRegisterError(error: HttpErrorResponse): void {
+    const response = error.error as ErrorDTOResponse;
+
+    const fieldErrors = response.fieldErrors?.map((field) => field.message).join('\n');
+
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Erro',
+      detail: [response.message, fieldErrors].filter(Boolean).join('\n'),
+    });
+    this.lockTabs(false);
     this.formSubmitted = false;
   }
 
+  private slowRedirectToLoginPage(): void {
+    setTimeout(() => {
+      this.router.navigate(['/']);
+    }, 3000);
+  }
+
   isInvalid(controlName: string): boolean {
-    const control = this.CadastroForm.get(controlName);
+    const control = this.cadastroForm.get(controlName);
 
     return !!(control?.invalid && (control.touched || this.formSubmitted));
+  }
+
+  clearForm(): void {
+    this.cadastroForm.reset();
+    this.formSubmitted = false;
   }
 }

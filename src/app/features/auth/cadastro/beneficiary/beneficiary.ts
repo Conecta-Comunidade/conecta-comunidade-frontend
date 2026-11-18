@@ -18,6 +18,7 @@ import { UserRole } from '../../../model/user-role';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { HttpErrorResponse } from '@angular/common/http';
+import { output } from '@angular/core';
 
 @Component({
   selector: 'app-beneficiary',
@@ -39,9 +40,15 @@ export class Beneficiary {
   private messageService = inject(MessageService);
   private router = inject(Router);
 
+  isTabDisabled = output<boolean>();
+
+  lockTabs(isDisabled: boolean): void {
+    this.isTabDisabled.emit(isDisabled);
+  }
+
   formSubmitted = false;
 
-  CadastroForm: FormGroup = this.fb.group(
+  cadastroForm: FormGroup = this.fb.group(
     {
       name: ['', Validators.required],
 
@@ -57,27 +64,27 @@ export class Beneficiary {
   );
 
   passwordMatchValidator(form: AbstractControl): ValidationErrors | null {
-    const senha = form.get('senha')?.value;
-    const confirmarSenha = form.get('confirmarSenha')?.value;
+    const password = form.get('password')?.value;
+    const confirmarPassword = form.get('confirmarPassword')?.value;
 
-    if (senha !== confirmarSenha) {
-      form.get('confirmarSenha')?.setErrors({
-        ...form.get('confirmarSenha')?.errors,
+    if (password !== confirmarPassword) {
+      form.get('confirmarPassword')?.setErrors({
+        ...form.get('confirmarPassword')?.errors,
         passwordMismatch: true,
       });
 
       return { passwordMismatch: true };
     }
 
-    const errors = form.get('confirmarSenha')?.errors;
+    const errors = form.get('confirmarPassword')?.errors;
 
     if (errors?.['passwordMismatch']) {
       delete errors['passwordMismatch'];
 
       if (Object.keys(errors).length === 0) {
-        form.get('confirmarSenha')?.setErrors(null);
+        form.get('confirmarPassword')?.setErrors(null);
       } else {
-        form.get('confirmarSenha')?.setErrors(errors);
+        form.get('confirmarPassword')?.setErrors(errors);
       }
     }
 
@@ -87,17 +94,18 @@ export class Beneficiary {
   onSubmit() {
     this.formSubmitted = true;
 
-    if (this.CadastroForm.invalid) {
+    if (this.cadastroForm.invalid) {
       return;
     }
 
-    const { confirmarPassword, ...cadastroData } = this.CadastroForm.value;
+    const { confirmarPassword, ...cadastroData } = this.cadastroForm.value;
 
     const data = {
       ...cadastroData,
       role: UserRole.BENEFICIARY,
     };
 
+    this.lockTabs(true);
     this.authService.register(data).subscribe({
       next: () => this.handleRegisterSuccess(),
       error: (error: HttpErrorResponse) => this.handleRegisterError(error),
@@ -111,7 +119,7 @@ export class Beneficiary {
       detail: 'Cadastro realizado com sucesso!',
     });
 
-    this.CadastroForm.reset();
+    this.cadastroForm.reset();
     this.formSubmitted = false;
 
     this.slowRedirectToLoginPage();
@@ -127,6 +135,8 @@ export class Beneficiary {
       summary: 'Erro',
       detail: [response.message, fieldErrors].filter(Boolean).join('\n'),
     });
+    this.lockTabs(false);
+    this.formSubmitted = false;
   }
 
   private slowRedirectToLoginPage(): void {
@@ -136,8 +146,13 @@ export class Beneficiary {
   }
 
   isInvalid(controlName: string): boolean {
-    const control = this.CadastroForm.get(controlName);
+    const control = this.cadastroForm.get(controlName);
 
     return !!(control?.invalid && (control.touched || this.formSubmitted));
+  }
+
+  clearForm(): void {
+    this.cadastroForm.reset();
+    this.formSubmitted = false;
   }
 }

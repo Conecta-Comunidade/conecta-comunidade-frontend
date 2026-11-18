@@ -3,9 +3,10 @@
     class="w-full max-w-sm rounded-3xl border border-slate-200 bg-white p-2 shadow-xl shadow-slate-300/40"
   >
     <div class="flex w-full">
-      <p-tabs [(value)]="tabs" class="w-full">
+      <p-tabs [value]="tabs" (valueChange)="onTabChange($event)" class="w-full">
         <p-tablist>
           <p-tab
+            [disabled]="isBeneficiaryDisabled"
             class="w-1/2 rounded-t-2xl text-center text-sm transition-all data-[p-active=true]:bg-blue-400! data-[p-active=true]:text-white!"
             value="BENEFICIARY"
           >
@@ -13,6 +14,7 @@
           </p-tab>
 
           <p-tab
+            [disabled]="isContributorDisabled"
             class="w-1/2 rounded-t-2xl text-center text-sm transition-all data-[p-active=true]:bg-blue-400! data-[p-active=true]:text-white!"
             value="CONTRIBUTOR"
           >
@@ -22,10 +24,11 @@
 
         <p-tabpanels>
           <p-tabpanel value="BENEFICIARY">
-            <app-beneficiary />
+            <app-beneficiary (isTabDisabled)="onTabLockChange('BENEFICIARY', $event)" />
           </p-tabpanel>
+
           <p-tabpanel value="CONTRIBUTOR">
-            <app-contributor></app-contributor>
+            <app-contributor (isTabDisabled)="onTabLockChange('CONTRIBUTOR', $event)" />
           </p-tabpanel>
         </p-tabpanels>
       </p-tabs>
