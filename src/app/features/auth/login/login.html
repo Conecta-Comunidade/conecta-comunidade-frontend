@@ -48,32 +48,32 @@
 
       <div class="flex flex-col gap-1">
         <label
-          for="senha"
-          [class.text-red-700]="isInvalid('senha')"
+          for="password"
+          [class.text-red-700]="isInvalid('password')"
           class="text-sm font-medium text-slate-700"
         >
           Senha
         </label>
 
         <p-password
-          id="senha"
-          formControlName="senha"
+          id="password"
+          formControlName="password"
           placeholder="Digite sua senha"
           [toggleMask]="true"
           [feedback]="false"
-          [invalid]="isInvalid('senha')"
+          [invalid]="isInvalid('password')"
           inputStyleClass="w-full"
           size="small"
         />
 
-        @if (isInvalid('senha')) {
-          @if (LoginForm.get('senha')?.errors?.['required']) {
+        @if (isInvalid('password')) {
+          @if (LoginForm.get('password')?.errors?.['required']) {
             <p-message severity="error" size="small" variant="simple">
               Senha é obrigatória.
             </p-message>
           }
 
-          @if (LoginForm.get('senha')?.errors?.['pattern']) {
+          @if (LoginForm.get('password')?.errors?.['pattern']) {
             <p-message severity="error" size="small" variant="simple">
               A senha deve ter no mínimo 6 caracteres, contendo letras e números.
             </p-message>
@@ -81,7 +81,13 @@
         }
       </div>
 
-      <app-button class="w-full"> Entrar </app-button>
+      <app-button [disabled]="formSubmitted || LoginForm.invalid" class="w-full">
+        @if (!formSubmitted) {
+          Entrar
+        } @else {
+          Carregando...
+        }
+      </app-button>
     </form>
 
     <div class="mt-8 border-t border-slate-100 pt-6 text-center">

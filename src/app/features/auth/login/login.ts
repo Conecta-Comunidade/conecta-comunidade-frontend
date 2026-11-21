@@ -5,8 +5,11 @@ import { ToastModule } from 'primeng/toast';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Button } from '../../../shared/components/button/button';
+import { AuthService } from '../services/auth';
+import { MessageService } from 'primeng/api';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -24,12 +27,15 @@ import { Button } from '../../../shared/components/button/button';
 })
 export class Login {
   private fb = inject(FormBuilder);
+  private authService = inject(AuthService);
+  private messageService = inject(MessageService);
+  private router = inject(Router);
 
   formSubmitted = false;
 
   LoginForm: FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    senha: ['', [Validators.required, Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d).{6,}$/)]],
+    password: ['', [Validators.required, Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d).{6,}$/)]],
   });
 
   onSubmit() {
@@ -39,8 +45,39 @@ export class Login {
       return;
     }
 
-    console.log(this.LoginForm.value);
+    this.authService.login(this.LoginForm.value).subscribe({
+      next: (data: { token: string }) => this.handleRegisterSuccess(data),
+      error: (err) => this.handleRegisterError(err),
+    });
+  }
+
+  private handleRegisterSuccess(data: { token: string }) {
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Sucesso',
+      detail: 'Login realizado com sucesso!',
+    });
+
     this.LoginForm.reset();
+    this.formSubmitted = false;
+
+    sessionStorage.setItem('conecta-token', JSON.stringify(data.token));
+
+    setTimeout(() => {
+      this.router.navigate(['/home']);
+    }, 3000);
+  }
+
+  private handleRegisterError(error: HttpErrorResponse): void {
+    const response = error.error as ErrorDTOResponse;
+
+    const fieldErrors = response.fieldErrors?.map((field) => field.message).join('\n');
+
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Erro',
+      detail: [response.message, fieldErrors].filter(Boolean).join('\n'),
+    });
     this.formSubmitted = false;
   }
 
