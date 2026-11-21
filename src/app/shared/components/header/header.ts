@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -8,4 +8,11 @@ import { RouterLink } from '@angular/router';
   templateUrl: './header.html',
   styles: ``,
 })
-export class Header {}
+export class Header {
+  private router = inject(Router);
+
+  logout(): void {
+    sessionStorage.removeItem('conecta-token');
+    this.router.navigate(['/']);
+  }
+}

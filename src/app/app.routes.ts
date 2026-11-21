@@ -1,21 +1,26 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/guards/auth-guard';
+import { guestGuard } from './core/guards/guest-guard';
 
 export const routes: Routes = [
   {
     path: '',
     loadComponent: () => import('./features/auth/login/login').then((m) => m.Login),
     title: 'Login',
+    canActivate: [guestGuard],
   },
 
   {
     path: 'cadastro',
     loadComponent: () => import('./features/auth/cadastro/cadastro').then((m) => m.Cadastro),
     title: 'Cadastro',
+    canActivate: [guestGuard],
   },
 
   {
     path: '',
     loadComponent: () => import('./layout/main-layout/main-layout').then((m) => m.MainLayout),
+    canActivate: [authGuard],
     children: [
       {
         path: 'home',

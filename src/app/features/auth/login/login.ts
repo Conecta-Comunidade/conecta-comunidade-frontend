@@ -61,10 +61,10 @@ export class Login {
     this.LoginForm.reset();
     this.formSubmitted = false;
 
-    sessionStorage.setItem('conecta-token', JSON.stringify(data.token));
+    sessionStorage.setItem('conecta-token', data.token);
 
     setTimeout(() => {
-      this.router.navigate(['/home']);
+      this.router.navigate(['/home'], { replaceUrl: true });
     }, 3000);
   }
 
