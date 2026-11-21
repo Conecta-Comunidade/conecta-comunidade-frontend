@@ -1,6 +1,6 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '../../../features/auth/services/auth';
+import { TokenStorageService } from '../../../features/auth/services/token-storage.service';
 
 @Component({
   selector: 'app-header',
@@ -9,20 +9,12 @@ import { AuthService } from '../../../features/auth/services/auth';
   templateUrl: './header.html',
   styles: ``,
 })
-export class Header implements OnInit {
+export class Header {
   private router = inject(Router);
-  private authService = inject(AuthService);
-
-  private user = this.authService.currentUser();
-
-  ngOnInit(): void {
-    console.log(this.user?.name);
-    console.log(this.user?.email);
-    console.log(this.user?.role);
-  }
+  private readonly tokenStorage = inject(TokenStorageService);
 
   logout(): void {
-    sessionStorage.removeItem('conecta-token');
+    this.tokenStorage.removeToken();
     this.router.navigate(['/']);
   }
 }

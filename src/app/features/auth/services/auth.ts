@@ -1,25 +1,22 @@
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-
-import { RegisterRequest } from '../models/register-request';
-import { LoginRequest } from '../models/login-request';
+import { catchError, finalize, map, Observable, of, shareReplay, tap } from 'rxjs';
 
 import { environment } from '../../../environments/environment.development';
 
-import { Observable, catchError, finalize, map, of, shareReplay, tap } from 'rxjs';
-
-import { HttpErrorResponse } from '@angular/common/http';
+import { LoginRequest } from '../models/login-request';
+import { RegisterRequest } from '../models/register-request';
 import { UserResponseDTO } from '../../model/UserResponseDTO';
+import { TokenStorageService } from './token-storage.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly apiUrl = `${environment.apiUrl}/auth`;
-  private readonly userApiUrl = `${environment.apiUrl}/users`;
   private readonly http = inject(HttpClient);
+  private readonly tokenStorage = inject(TokenStorageService);
 
-  private readonly tokenKey = 'conecta-token';
+  private readonly apiUrl = environment.apiUrl;
 
   private readonly currentUserSignal = signal<UserResponseDTO | null>(null);
 
@@ -27,29 +24,20 @@ export class AuthService {
 
   private validationRequest$?: Observable<boolean>;
 
-  public register(body: RegisterRequest) {
-    return this.http.post(`${this.apiUrl}/register`, body);
+  register(body: RegisterRequest): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/auth/register`, body);
   }
 
-  public login(body: LoginRequest): Observable<{ token: string }> {
-    return this.http.post<{ token: string }>(`${this.apiUrl}/login`, body);
+  login(body: LoginRequest): Observable<{ token: string }> {
+    return this.http.post<{ token: string }>(`${this.apiUrl}/auth/login`, body);
   }
 
-  public setToken(token: string): void {
-    sessionStorage.setItem(this.tokenKey, token);
-    this.currentUserSignal.set(null);
+  getCurrentUser(): Observable<UserResponseDTO> {
+    return this.http.get<UserResponseDTO>(`${this.apiUrl}/users/me`);
   }
 
-  public getToken(): string | null {
-    return sessionStorage.getItem(this.tokenKey);
-  }
-
-  public getCurrentUser(): Observable<UserResponseDTO> {
-    return this.http.get<UserResponseDTO>(`${this.userApiUrl}/me`);
-  }
-
-  public validateSession(): Observable<boolean> {
-    if (!this.getToken()) {
+  validateSession(): Observable<boolean> {
+    if (!this.tokenStorage.getToken()) {
       this.currentUserSignal.set(null);
       return of(false);
     }
@@ -81,8 +69,8 @@ export class AuthService {
     return this.validationRequest$;
   }
 
-  public logout(): void {
-    sessionStorage.removeItem(this.tokenKey);
+  logout(): void {
+    this.tokenStorage.removeToken();
     this.currentUserSignal.set(null);
   }
 }

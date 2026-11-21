@@ -10,6 +10,7 @@ import { Button } from '../../../shared/components/button/button';
 import { AuthService } from '../services/auth';
 import { MessageService } from 'primeng/api';
 import { HttpErrorResponse } from '@angular/common/http';
+import { TokenStorageService } from '../services/token-storage.service';
 
 @Component({
   selector: 'app-login',
@@ -29,6 +30,7 @@ export class Login {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private messageService = inject(MessageService);
+  private tokenStorage = inject(TokenStorageService);
   private router = inject(Router);
 
   formSubmitted = false;
@@ -61,7 +63,7 @@ export class Login {
     this.LoginForm.reset();
     this.formSubmitted = false;
 
-    sessionStorage.setItem('conecta-token', data.token);
+    this.tokenStorage.setToken(data.token);
 
     setTimeout(() => {
       this.router.navigate(['/home'], { replaceUrl: true });
