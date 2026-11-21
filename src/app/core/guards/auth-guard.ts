@@ -1,14 +1,13 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
+import { AuthService } from '../../features/auth/services/auth';
+import { map } from 'rxjs';
 
-export const authGuard: CanActivateFn = (route, state) => {
+export const authGuard: CanActivateFn = () => {
+  const authService = inject(AuthService);
   const router = inject(Router);
 
-  const token = sessionStorage.getItem('conecta-token');
-
-  if (token) {
-    return true;
-  }
-
-  return router.createUrlTree(['/']);
+  return authService
+    .validateSession()
+    .pipe(map((isAuthenticated) => isAuthenticated || router.createUrlTree(['/'])));
 };
