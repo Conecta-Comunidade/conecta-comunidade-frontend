@@ -38,7 +38,9 @@
       <div class="flex min-w-0 flex-col gap-1">
         <span class="text-xs font-semibold tracking-wider text-slate-400 uppercase"> Nome </span>
 
-        <p class="truncate text-base font-semibold text-slate-900">João Marcos</p>
+        <p class="truncate text-base font-semibold text-slate-900">
+          {{ user?.name || 'Usuário não encontrado' | titlecase }}
+        </p>
       </div>
 
       <div class="h-px bg-slate-100"></div>
@@ -46,11 +48,13 @@
       <div class="flex min-w-0 flex-col gap-1">
         <span class="text-xs font-semibold tracking-wider text-slate-400 uppercase"> Email </span>
 
-        <p class="truncate text-sm font-medium text-slate-700 sm:text-base">joaomarcos@email.com</p>
+        <p class="truncate text-sm font-medium text-slate-700 sm:text-base">
+          {{ user?.email || 'Email não encontrado' }}
+        </p>
       </div>
     </div>
 
-    <div class="flex w-full border-t border-slate-100 bg-slate-50 p-4">
+    <!--     <div class="flex w-full border-t border-slate-100 bg-slate-50 p-4">
       <app-button
         type="button"
         class="ml-auto w-full text-sm font-semibold text-white shadow-sm sm:w-auto"
@@ -58,6 +62,6 @@
         <i class="pi pi-pencil mr-2 text-xs"></i>
         Editar perfil
       </app-button>
-    </div>
+    </div> -->
   </section>
 </section>
