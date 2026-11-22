@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { UserRole } from '../model/user-role';
+import { AuthService } from '../auth/services/auth';
 
 interface OpcaoMenu {
   rota: string;
@@ -17,7 +18,10 @@ interface OpcaoMenu {
   styles: ``,
 })
 export class DashHome {
-  userRole: UserRole = UserRole.BENEFICIARY;
+  private authService = inject(AuthService);
+  user = this.authService.currentUser();
+  userRole: UserRole = this.authService.currentUser()?.role as UserRole;
+
   itemsMenuBENEFICIARY: OpcaoMenu[] = [
     {
       rota: '/agendamentos',

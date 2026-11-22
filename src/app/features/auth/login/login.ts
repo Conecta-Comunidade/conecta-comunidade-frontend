@@ -54,20 +54,11 @@ export class Login {
   }
 
   private handleRegisterSuccess(data: { token: string }) {
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Sucesso',
-      detail: 'Login realizado com sucesso!',
-    });
-
-    this.LoginForm.reset();
-    this.formSubmitted = false;
-
     this.tokenStorage.setToken(data.token);
-
+    window.location.reload();
     setTimeout(() => {
       this.router.navigate(['/home'], { replaceUrl: true });
-    }, 3000);
+    }, 2000);
   }
 
   private handleRegisterError(error: HttpErrorResponse): void {

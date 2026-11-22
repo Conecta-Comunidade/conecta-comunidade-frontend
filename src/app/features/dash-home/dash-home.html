@@ -1,7 +1,8 @@
 <section class="flex min-h-full flex-col gap-4 rounded-2xl bg-slate-50 px-3 py-10 md:gap-8 md:px-6">
   <header class="flex w-full flex-col items-center gap-0.5 md:gap-2">
-    <h1 class="text-lg font-bold tracking-tight text-slate-900 md:text-xl">Olá, João Marcos</h1>
-
+    <h1 class="text-lg font-bold tracking-tight text-slate-900 capitalize md:text-xl">
+      Olá, {{ user?.name }}
+    </h1>
     <p class="text-center text-xs text-slate-500 md:text-start md:text-sm">
       Seja bem-vindo ao Sistema de Agendamento de Serviços Comunitários
     </p>
