@@ -1,0 +1,10 @@
+:host ::ng-deep .custom-datepicker {
+  width: 100%;
+}
+
+:host ::ng-deep .custom-datepicker .p-inputtext {
+  width: 100%;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  height: 44px;
+}

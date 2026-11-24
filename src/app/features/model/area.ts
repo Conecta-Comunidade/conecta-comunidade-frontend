@@ -1,0 +1,8 @@
+export enum Area {
+  EDUCATION = 'EDUCATION',
+  BEAUTY = 'BEAUTY',
+  HEALTH = 'HEALTH',
+  SPORTS = 'SPORTS',
+  LEISURE = 'LEISURE',
+  OTHER = 'OTHER',
+}

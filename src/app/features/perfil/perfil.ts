@@ -1,11 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { Button } from '../../shared/components/button/button';
 import { Location, TitleCasePipe } from '@angular/common';
 import { AuthService } from '../auth/services/auth';
 
 @Component({
   selector: 'app-perfil',
-  imports: [Button, TitleCasePipe],
+  imports: [TitleCasePipe],
   templateUrl: './perfil.html',
   styles: ``,
 })

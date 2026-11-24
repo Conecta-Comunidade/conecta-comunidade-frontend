@@ -25,7 +25,9 @@
     <div class="w-7 shrink-0 sm:w-14"></div>
   </header>
 
-  <form class="mx-auto flex w-full max-w-2xl flex-col gap-5 md:gap-6" (ngSubmit)="criarServico()">
+  <div
+    class="mx-auto grid w-full max-w-6xl grid-cols-1 items-start gap-5 lg:grid-cols-[minmax(0,1.4fr)_minmax(300px,0.8fr)] lg:gap-6"
+  >
     <section class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
       <div class="mb-5 sm:mb-6">
         <h2 class="text-base font-semibold text-slate-900">Informações do serviço</h2>
@@ -35,73 +37,98 @@
         </p>
       </div>
 
-      <div class="flex flex-col gap-5">
+      <form
+        [formGroup]="createServiceForm"
+        (ngSubmit)="onSubmit()"
+        class="flex w-full flex-col gap-5 md:gap-6"
+      >
         <div class="flex flex-col gap-2">
           <label for="servico" class="text-sm font-medium text-slate-700"> Serviço </label>
 
           <input
             id="servico"
-            name="servico"
             type="text"
-            [(ngModel)]="servicoForm.servico"
+            formControlName="name"
             placeholder="Ex.: Corte de cabelo gratuito"
-            class="h-11 rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-900 transition outline-none placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-            required
+            class="h-11 rounded-xl border border-slate-200 bg-white px-4 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+          />
+
+          @if (isInvalid('name')) {
+            <span class="text-xs text-red-500">
+              @if (createServiceForm.get('name')?.hasError('required')) {
+                O nome do serviço é obrigatório.
+              } @else if (createServiceForm.get('name')?.hasError('minlength')) {
+                O nome deve ter pelo menos 10 caracteres.
+              }
+            </span>
+          }
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for="area" class="text-sm font-medium text-slate-700"> Área </label>
+
+          <p-select
+            inputId="area"
+            [options]="areas"
+            formControlName="area"
+            optionLabel="name"
+            optionValue="id"
+            style="border-color: #e2e8f0; border-radius: 12px"
+            placeholder="Selecione a área do serviço"
+            class="w-full"
           />
         </div>
 
         <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <div class="flex flex-col gap-2">
-            <label for="data" class="text-sm font-medium text-slate-700"> Data </label>
+            <label for="date" class="text-sm font-medium text-slate-700"> Data </label>
 
-            <div class="relative">
-              <i class="pi pi-calendar absolute top-1/2 left-4 -translate-y-1/2 text-slate-400"></i>
-
-              <input
-                id="data"
-                name="data"
-                type="date"
-                [(ngModel)]="servicoForm.data"
-                class="h-11 w-full rounded-xl border border-slate-200 bg-white pr-4 pl-11 text-sm text-slate-900 transition outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                required
-              />
-            </div>
+            <p-datepicker
+              inputId="date"
+              formControlName="date"
+              placeholder="Selecione a data"
+              dateFormat="dd/mm/yy"
+              class="custom-datepicker w-full"
+              [minDate]="currentDate"
+            />
           </div>
 
           <div class="flex flex-col gap-2">
-            <label for="horario" class="text-sm font-medium text-slate-700"> Horário </label>
+            <label for="horario" class="text-sm font-medium text-slate-700">
+              Horário de início
+            </label>
 
-            <div class="relative">
-              <i class="pi pi-clock absolute top-1/2 left-4 -translate-y-1/2 text-slate-400"></i>
-
-              <input
-                id="horario"
-                name="horario"
-                type="time"
-                [(ngModel)]="servicoForm.horario"
-                class="h-11 w-full rounded-xl border border-slate-200 bg-white pr-4 pl-11 text-sm text-slate-900 transition outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                required
-              />
-            </div>
+            <p-datepicker
+              inputId="horario"
+              formControlName="horarioInicio"
+              [timeOnly]="true"
+              hourFormat="24"
+              placeholder="Selecione o horário"
+              class="custom-datepicker w-full"
+            />
           </div>
         </div>
 
         <div class="flex flex-col gap-2">
           <label for="local" class="text-sm font-medium text-slate-700"> Local </label>
 
-          <div class="relative">
-            <i class="pi pi-map-marker absolute top-1/2 left-4 -translate-y-1/2 text-slate-400"></i>
+          <input
+            id="local"
+            type="text"
+            formControlName="local"
+            placeholder="Ex.: Centro Comunitário"
+            class="h-11 rounded-xl border border-slate-200 bg-white px-4 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+          />
 
-            <input
-              id="local"
-              name="local"
-              type="text"
-              [(ngModel)]="servicoForm.local"
-              placeholder="Ex.: Centro Comunitário"
-              class="h-11 w-full rounded-xl border border-slate-200 bg-white pr-4 pl-11 text-sm text-slate-900 transition outline-none placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-              required
-            />
-          </div>
+          @if (isInvalid('local')) {
+            <span class="text-xs text-red-500">
+              @if (createServiceForm.get('local')?.hasError('required')) {
+                O local é obrigatório.
+              } @else if (createServiceForm.get('local')?.hasError('minlength')) {
+                O local deve ter pelo menos 5 caracteres.
+              }
+            </span>
+          }
         </div>
 
         <div class="flex flex-col gap-2">
@@ -111,18 +138,26 @@
 
           <input
             id="vagas"
-            name="vagas"
             type="number"
             min="1"
-            [(ngModel)]="servicoForm.vagas"
+            formControlName="vagas"
             placeholder="Ex.: 10"
-            class="h-11 rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-900 transition outline-none placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-            required
+            class="h-11 rounded-xl border border-slate-200 bg-white px-4 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
           />
 
           <span class="text-xs text-slate-400">
             Informe quantas pessoas poderão se inscrever neste serviço.
           </span>
+
+          @if (isInvalid('vagas')) {
+            <span class="text-xs text-red-500">
+              @if (createServiceForm.get('vagas')?.hasError('required')) {
+                A quantidade de vagas é obrigatória.
+              } @else if (createServiceForm.get('vagas')?.hasError('min')) {
+                Informe pelo menos 1 vaga.
+              }
+            </span>
+          }
         </div>
 
         <div class="flex flex-col gap-2">
@@ -130,30 +165,148 @@
 
           <textarea
             id="descricao"
-            name="descricao"
             rows="5"
-            [(ngModel)]="servicoForm.descricao"
+            formControlName="description"
             placeholder="Descreva o serviço, informações importantes, orientações para os participantes..."
-            class="resize-none rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 transition outline-none placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-            required
+            class="resize-none rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
           ></textarea>
+
+          @if (isInvalid('description')) {
+            <span class="text-xs text-red-500">
+              @if (createServiceForm.get('description')?.hasError('required')) {
+                A descrição é obrigatória.
+              } @else if (createServiceForm.get('description')?.hasError('minlength')) {
+                A descrição deve ter pelo menos 5 caracteres.
+              }
+            </span>
+          }
         </div>
-      </div>
+
+        <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+          <app-button
+            type="button"
+            routerLink="/home"
+            class="h-11 w-full rounded-xl bg-white px-5 text-sm font-semibold text-slate-600 transition hover:border-slate-300 hover:bg-slate-50 sm:w-auto"
+          >
+            Cancelar
+          </app-button>
+
+          <app-button type="submit" class="h-11 w-full sm:w-auto">
+            <i class="pi pi-plus mr-1"></i>
+            Criar serviço
+          </app-button>
+        </div>
+      </form>
     </section>
 
-    <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-      <app-button
-        type="button"
-        routerLink="/home"
-        class="h-11 w-full rounded-xl bg-white px-5 text-sm font-semibold text-slate-600 transition hover:border-slate-300 hover:bg-slate-50 sm:w-auto"
-      >
-        Cancelar
-      </app-button>
+    <aside class="flex flex-col gap-3 lg:sticky lg:top-6">
+      <div>
+        <h2 class="text-base font-semibold text-slate-900">Prévia do serviço</h2>
 
-      <app-button class="h-11 w-full sm:w-auto">
-        <i class="pi pi-plus mr-1"></i>
-        Criar serviço
-      </app-button>
-    </div>
-  </form>
+        <p class="mt-1 text-sm text-slate-500">
+          Veja como seu serviço será apresentado aos beneficiários.
+        </p>
+      </div>
+
+      <article class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <div class="bg-blue-50 p-5">
+          <div class="mb-4 flex items-center justify-between">
+            <div class="flex size-11 items-center justify-center rounded-xl bg-white text-blue-600">
+              <i class="pi pi-briefcase text-xl"></i>
+            </div>
+
+            <span class="rounded-full bg-white px-3 py-1 text-xs font-medium text-blue-600">
+              {{ preview().area }}
+            </span>
+          </div>
+
+          <h3 class="text-lg font-bold tracking-tight wrap-break-word text-slate-900">
+            {{ preview().name }}
+          </h3>
+        </div>
+
+        <div class="flex flex-col gap-4 p-5">
+          <div class="flex items-center gap-3">
+            <i class="pi pi-calendar text-blue-500"></i>
+
+            <div>
+              <p class="text-xs text-slate-400">Data</p>
+              <p class="text-sm font-medium text-slate-700">
+                {{ preview().date }}
+              </p>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-3">
+            <div class="flex items-center gap-3">
+              <i class="pi pi-clock text-blue-500"></i>
+
+              <div>
+                <p class="text-xs text-slate-400">Horários disponíveis</p>
+                <p class="text-sm font-medium text-slate-700">
+                  {{ preview().horarios.length }} horários
+                </p>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap gap-2">
+              @for (horario of preview().horarios; track horario) {
+                <span
+                  class="rounded-lg border border-blue-100 bg-blue-50 px-3 py-2 text-sm font-medium text-blue-700"
+                >
+                  {{ horario }}
+                </span>
+              } @empty {
+                <span class="text-xs text-slate-400"> Selecione um horário de início. </span>
+              }
+            </div>
+
+            <div class="flex gap-2 rounded-xl bg-slate-50 p-3">
+              <i class="pi pi-info-circle mt-0.5 text-sm text-blue-500"></i>
+
+              <p class="text-xs leading-relaxed text-slate-500">
+                Cada vaga representa um horário de 30 minutos. Por exemplo, com início às 08:00 e
+                quatro vagas, os horários serão 08:00, 08:30, 09:00 e 09:30.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <i class="pi pi-map-marker text-blue-500"></i>
+
+            <div class="min-w-0">
+              <p class="text-xs text-slate-400">Local</p>
+              <p class="text-sm font-medium wrap-break-word text-slate-700">
+                {{ preview().local }}
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <i class="pi pi-users text-blue-500"></i>
+
+            <div>
+              <p class="text-xs text-slate-400">Vagas disponíveis</p>
+              <p class="text-sm font-medium text-slate-700">
+                {{ preview().vagas || 0 }}
+                {{ preview().vagas === 1 ? 'vaga' : 'vagas' }}
+              </p>
+            </div>
+          </div>
+
+          <div class="border-t border-slate-100 pt-4">
+            <h4 class="mb-2 text-sm font-semibold text-slate-900">Sobre o serviço</h4>
+
+            <p class="text-sm leading-relaxed wrap-break-word whitespace-pre-line text-slate-500">
+              {{ preview().description }}
+            </p>
+          </div>
+
+          <div class="rounded-xl bg-slate-50 p-3 text-center">
+            <p class="text-xs text-slate-400">Prévia ilustrativa da publicação</p>
+          </div>
+        </div>
+      </article>
+    </aside>
+  </div>
 </section>
