@@ -1,6 +1,5 @@
 import { Component, computed, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { Location } from '@angular/common';
 import { format } from 'date-fns';
 import { SelectModule } from 'primeng/select';
@@ -8,18 +7,26 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { Button } from '../../shared/components/button/button';
 import { Area } from '../model/area';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { optionsStylesArea } from '../../shared/utils/optionsStylesArea';
+import { HttpErrorResponse } from '@angular/common/http';
+import { MessageService } from 'primeng/api';
+import { Toast } from 'primeng/toast';
+import { CommunityServices } from '../../data/community-services/community-services';
 
 @Component({
   selector: 'app-criar-servico',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, Button, SelectModule, DatePickerModule],
+  imports: [ReactiveFormsModule, Button, SelectModule, DatePickerModule, Toast],
   templateUrl: './criar-servico.html',
   styleUrl: './criar-servico.css',
 })
 export class CriarServico implements OnInit {
   private location = inject(Location);
   private fb = inject(FormBuilder);
-  currentDate = new Date();
+  private messageService = inject(MessageService);
+  private communityService = inject(CommunityServices);
+  tomorrowDate = new Date(new Date().setDate(new Date().getDate() + 1));
+
   formSubmitted = false;
   areas: { id: Area; name: string }[] = [];
 
@@ -39,13 +46,13 @@ export class CriarServico implements OnInit {
   }
 
   createServiceForm: FormGroup = this.fb.group({
-    name: ['', [Validators.required, Validators.minLength(1)]],
+    name: ['', [Validators.required, Validators.minLength(10)]],
     area: [Area.EDUCATION, [Validators.required]],
-    date: [format(this.currentDate, 'yyyy-MM-dd'), [Validators.required]],
-    horarioInicio: [format(this.currentDate, 'HH:mm'), [Validators.required]],
-    local: ['', [Validators.required, Validators.minLength(1)]],
+    date: [this.tomorrowDate, [Validators.required]],
+    horarioInicio: [this.tomorrowDate, [Validators.required]],
+    local: ['', [Validators.required, Validators.minLength(10)]],
     vagas: [1, [Validators.required, Validators.min(1)]],
-    description: ['', [Validators.required, Validators.minLength(1)]],
+    description: ['', [Validators.required, Validators.minLength(10)]],
   });
 
   private formValue = toSignal(this.createServiceForm.valueChanges, {
@@ -89,12 +96,16 @@ export class CriarServico implements OnInit {
       local: form.local || 'Local não informado',
       vagas,
       description: form.description || 'A descrição do serviço aparecerá aqui.',
+      style: {
+        bg: form.area ? optionsStylesArea(form.area).bg : 'bg-gray-500',
+        textColor: form.area ? optionsStylesArea(form.area)['text-color'] : 'text-gray-500',
+        icon: form.area ? optionsStylesArea(form.area).icon : 'pi-question-circle',
+      },
     };
   });
 
   onSubmit() {
     this.formSubmitted = true;
-
     this.createServiceForm.markAllAsTouched();
 
     if (this.createServiceForm.invalid) {
@@ -102,9 +113,44 @@ export class CriarServico implements OnInit {
       return;
     }
 
-    const service = this.createServiceForm.value;
+    const transformedDate = {
+      ...this.createServiceForm.value,
+      date: format(this.createServiceForm.value.date, 'yyyy-MM-dd'),
+      horarioInicio: format(this.createServiceForm.value.horarioInicio, 'HH:mm'),
+    };
 
-    console.log('Serviço criado:', service);
+    this.communityService.create(transformedDate).subscribe({
+      next: () => this.handleRegisterSuccess(),
+      error: (error: HttpErrorResponse) => this.handleRegisterError(error),
+    });
+  }
+
+  private handleRegisterSuccess() {
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Sucesso',
+      detail: 'Serviço criado com sucesso!',
+    });
+
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Sucesso',
+      detail: 'Acesse "Meus Serviços" para visualizar e gerenciar seus serviços.',
+    });
+    this.formSubmitted = false;
+    this.createServiceForm.reset();
+  }
+
+  private handleRegisterError(error: HttpErrorResponse): void {
+    const response = error.error as ErrorDTOResponse;
+    const fieldErrors = response.fieldErrors?.map((field) => field.message).join('\n');
+
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Erro',
+      detail: [response.message, fieldErrors].filter(Boolean).join('\n'),
+    });
+    this.formSubmitted = false;
   }
 
   isInvalid(controlName: string): boolean {

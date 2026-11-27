@@ -10,13 +10,11 @@
       <i
         class="pi pi-arrow-left text-xs transition-transform duration-200 group-hover:-translate-x-1"
       ></i>
-
       <span class="hidden sm:inline">Voltar</span>
     </button>
 
     <div class="min-w-0 flex-1 text-center">
       <h1 class="text-xl font-bold tracking-tight text-slate-900 sm:text-2xl">Criar Serviço</h1>
-
       <p class="mt-1 hidden text-sm text-slate-500 sm:block">
         Cadastre um novo serviço para a comunidade
       </p>
@@ -25,23 +23,20 @@
     <div class="w-7 shrink-0 sm:w-14"></div>
   </header>
 
-  <div
-    class="mx-auto grid w-full max-w-6xl grid-cols-1 items-start gap-5 lg:grid-cols-[minmax(0,1.4fr)_minmax(300px,0.8fr)] lg:gap-6"
+  <section
+    class="mx-auto w-full max-w-6xl rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6"
   >
-    <section class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
-      <div class="mb-5 sm:mb-6">
-        <h2 class="text-base font-semibold text-slate-900">Informações do serviço</h2>
+    <div class="mb-5 sm:mb-6">
+      <h2 class="text-base font-semibold text-slate-900">Informações do serviço</h2>
+      <p class="mt-1 text-sm text-slate-500">Informe os detalhes do serviço que será oferecido.</p>
+    </div>
 
-        <p class="mt-1 text-sm text-slate-500">
-          Informe os detalhes do serviço que será oferecido.
-        </p>
-      </div>
-
-      <form
-        [formGroup]="createServiceForm"
-        (ngSubmit)="onSubmit()"
-        class="flex w-full flex-col gap-5 md:gap-6"
-      >
+    <form
+      [formGroup]="createServiceForm"
+      (ngSubmit)="onSubmit()"
+      class="grid grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(0,1.4fr)_minmax(300px,0.8fr)] lg:gap-8"
+    >
+      <div class="flex flex-col gap-5 md:gap-6">
         <div class="flex flex-col gap-2">
           <label for="servico" class="text-sm font-medium text-slate-700"> Serviço </label>
 
@@ -82,14 +77,13 @@
         <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <div class="flex flex-col gap-2">
             <label for="date" class="text-sm font-medium text-slate-700"> Data </label>
-
             <p-datepicker
               inputId="date"
               formControlName="date"
               placeholder="Selecione a data"
               dateFormat="dd/mm/yy"
               class="custom-datepicker w-full"
-              [minDate]="currentDate"
+              [minDate]="tomorrowDate"
             />
           </div>
 
@@ -181,132 +175,143 @@
             </span>
           }
         </div>
-
-        <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-          <app-button
-            type="button"
-            routerLink="/home"
-            class="h-11 w-full rounded-xl bg-white px-5 text-sm font-semibold text-slate-600 transition hover:border-slate-300 hover:bg-slate-50 sm:w-auto"
-          >
-            Cancelar
-          </app-button>
-
-          <app-button type="submit" class="h-11 w-full sm:w-auto">
-            <i class="pi pi-plus mr-1"></i>
-            Criar serviço
-          </app-button>
-        </div>
-      </form>
-    </section>
-
-    <aside class="flex flex-col gap-3 lg:sticky lg:top-6">
-      <div>
-        <h2 class="text-base font-semibold text-slate-900">Prévia do serviço</h2>
-
-        <p class="mt-1 text-sm text-slate-500">
-          Veja como seu serviço será apresentado aos beneficiários.
-        </p>
       </div>
 
-      <article class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-        <div class="bg-blue-50 p-5">
-          <div class="mb-4 flex items-center justify-between">
-            <div class="flex size-11 items-center justify-center rounded-xl bg-white text-blue-600">
-              <i class="pi pi-briefcase text-xl"></i>
-            </div>
+      <aside class="flex flex-col gap-3 lg:sticky lg:top-6">
+        <div>
+          <h2 class="text-center text-base font-semibold text-slate-900">Prévia do serviço</h2>
 
-            <span class="rounded-full bg-white px-3 py-1 text-xs font-medium text-blue-600">
-              {{ preview().area }}
-            </span>
-          </div>
-
-          <h3 class="text-lg font-bold tracking-tight wrap-break-word text-slate-900">
-            {{ preview().name }}
-          </h3>
+          <p class="mt-1 text-center text-sm text-slate-500">
+            Veja como seu serviço será apresentado aos beneficiários.
+          </p>
         </div>
 
-        <div class="flex flex-col gap-4 p-5">
-          <div class="flex items-center gap-3">
-            <i class="pi pi-calendar text-blue-500"></i>
+        <article class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+          <div class="{{ preview().style.bg }} p-5">
+            <div class="mb-4 flex items-center justify-between">
+              <div
+                class="flex size-11 items-center justify-center rounded-xl bg-white {{
+                  preview().style.textColor
+                }}"
+              >
+                <i class="{{ preview().style.icon }} text-xl"></i>
+              </div>
 
-            <div>
-              <p class="text-xs text-slate-400">Data</p>
-              <p class="text-sm font-medium text-slate-700">
-                {{ preview().date }}
-              </p>
+              <span
+                class="rounded-full bg-white px-3 py-1 text-xs font-medium {{
+                  preview().style.textColor
+                }}"
+              >
+                {{ preview().area }}
+              </span>
             </div>
+
+            <h3 class="text-lg font-bold tracking-tight wrap-break-word text-slate-900">
+              {{ preview().name }}
+            </h3>
           </div>
 
-          <div class="flex flex-col gap-3">
+          <div class="flex flex-col gap-4 p-5">
             <div class="flex items-center gap-3">
-              <i class="pi pi-clock text-blue-500"></i>
+              <i class="{{ preview().style.icon }} {{ preview().style.textColor }}"></i>
 
               <div>
-                <p class="text-xs text-slate-400">Horários disponíveis</p>
+                <p class="text-xs text-slate-400">Data</p>
                 <p class="text-sm font-medium text-slate-700">
-                  {{ preview().horarios.length }} horários
+                  {{ preview().date }}
                 </p>
               </div>
             </div>
 
-            <div class="flex flex-wrap gap-2">
-              @for (horario of preview().horarios; track horario) {
-                <span
-                  class="rounded-lg border border-blue-100 bg-blue-50 px-3 py-2 text-sm font-medium text-blue-700"
-                >
-                  {{ horario }}
-                </span>
-              } @empty {
-                <span class="text-xs text-slate-400"> Selecione um horário de início. </span>
-              }
+            <div class="flex flex-col gap-3">
+              <div class="flex items-center gap-3">
+                <i class="pi pi-clock {{ preview().style.textColor }}"></i>
+
+                <div>
+                  <p class="text-xs text-slate-400">Horários disponíveis</p>
+                  <p class="text-sm font-medium text-slate-700">
+                    {{ preview().horarios.length }}
+                    {{ preview().horarios.length === 1 ? 'horário' : 'horários' }}
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex flex-wrap gap-2">
+                @for (horario of preview().horarios; track horario) {
+                  <span
+                    class="rounded-lg border border-blue-100 bg-blue-50 px-3 py-2 text-sm font-medium {{
+                      preview().style.textColor
+                    }}"
+                  >
+                    {{ horario }}
+                  </span>
+                } @empty {
+                  <span class="text-xs text-slate-400"> Selecione um horário de início. </span>
+                }
+              </div>
+
+              <div class="flex gap-2 rounded-xl bg-slate-50 p-3">
+                <i class="pi pi-info-circle mt-0.5 text-sm {{ preview().style.textColor }}"></i>
+
+                <p class="text-xs leading-relaxed text-slate-500">
+                  Cada vaga representa um horário de 30 minutos. Por exemplo, com início às 08:00 e
+                  quatro vagas, os horários serão 08:00, 08:30, 09:00 e 09:30.
+                </p>
+              </div>
             </div>
 
-            <div class="flex gap-2 rounded-xl bg-slate-50 p-3">
-              <i class="pi pi-info-circle mt-0.5 text-sm text-blue-500"></i>
+            <div class="flex items-center gap-3">
+              <i class="pi pi-map-marker {{ preview().style.textColor }}"></i>
 
-              <p class="text-xs leading-relaxed text-slate-500">
-                Cada vaga representa um horário de 30 minutos. Por exemplo, com início às 08:00 e
-                quatro vagas, os horários serão 08:00, 08:30, 09:00 e 09:30.
+              <div class="min-w-0">
+                <p class="text-xs text-slate-400">Local</p>
+                <p class="text-sm font-medium wrap-break-word text-slate-700">
+                  {{ preview().local }}
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+              <i class="pi pi-users {{ preview().style.textColor }}"></i>
+
+              <div>
+                <p class="text-xs text-slate-400">Vagas disponíveis</p>
+                <p class="text-sm font-medium text-slate-700">
+                  {{ preview().vagas || 0 }}
+                  {{ preview().vagas === 1 ? 'vaga' : 'vagas' }}
+                </p>
+              </div>
+            </div>
+
+            <div class="border-t border-slate-100 pt-4">
+              <h4 class="mb-2 text-sm font-semibold text-slate-900">Sobre o serviço</h4>
+
+              <p class="text-sm leading-relaxed wrap-break-word whitespace-pre-line text-slate-500">
+                {{ preview().description }}
+              </p>
+            </div>
+
+            <div class="border-t border-slate-100 pt-4">
+              <app-button
+                type="submit"
+                [disabled]="formSubmitted || createServiceForm.invalid"
+                class="h-11 w-full"
+              >
+                <i class="pi pi-plus mr-1"></i>
+                @if (!formSubmitted) {
+                  Criar serviço
+                } @else {
+                  Criando...
+                }
+              </app-button>
+              <p class="mt-2 text-center text-xs text-slate-400">
+                Prévia ilustrativa da publicação
               </p>
             </div>
           </div>
-
-          <div class="flex items-center gap-3">
-            <i class="pi pi-map-marker text-blue-500"></i>
-
-            <div class="min-w-0">
-              <p class="text-xs text-slate-400">Local</p>
-              <p class="text-sm font-medium wrap-break-word text-slate-700">
-                {{ preview().local }}
-              </p>
-            </div>
-          </div>
-
-          <div class="flex items-center gap-3">
-            <i class="pi pi-users text-blue-500"></i>
-
-            <div>
-              <p class="text-xs text-slate-400">Vagas disponíveis</p>
-              <p class="text-sm font-medium text-slate-700">
-                {{ preview().vagas || 0 }}
-                {{ preview().vagas === 1 ? 'vaga' : 'vagas' }}
-              </p>
-            </div>
-          </div>
-
-          <div class="border-t border-slate-100 pt-4">
-            <h4 class="mb-2 text-sm font-semibold text-slate-900">Sobre o serviço</h4>
-
-            <p class="text-sm leading-relaxed wrap-break-word whitespace-pre-line text-slate-500">
-              {{ preview().description }}
-            </p>
-          </div>
-
-          <div class="rounded-xl bg-slate-50 p-3 text-center">
-            <p class="text-xs text-slate-400">Prévia ilustrativa da publicação</p>
-          </div>
-        </div>
-      </article>
-    </aside>
-  </div>
+        </article>
+      </aside>
+    </form>
+  </section>
+  <p-toast position="top-center" life="4000"></p-toast>
 </section>
